@@ -13,8 +13,6 @@ SevSeg
  See the License for the specific language governing permissions and
  limitations under the License.
 
-[Source](http://playground.arduino.cc/Main/SevenSegmentLibrary "Permalink to Arduino Playground - SevenSegmentLibrary")
-
 
 This library turns your Arduino into a seven segment display controller! Use it to easily display numbers on your seven segment display without any additional controllers.
 
@@ -36,8 +34,8 @@ Thanks to Mark Chambers and Nathan Seidle for code used in updates.
 
 #### Seven Segment Display Pins
 
-Your display should have:
-**Digit Pins** \- One for each digit. These are the 'common pins'. They will be cathodes (negative pins) for common cathode displays, or anodes (positive pins) for common anode displays.
+Your display should have:  
+**Digit Pins** \- One for each digit. These are the 'common pins'. They will be cathodes (negative pins) for common cathode displays, or anodes (positive pins) for common anode displays.  
 **8 Segment Pins** \- One for each of the seven segments plus the decimal point.
 
 
@@ -50,27 +48,27 @@ All digit pins and segment pins can be connected to any of the Arduino's digital
 
 You have to specify your hardware configuration to the library. The options are detailed below.
 
-**Simple, Low Power Displays**
-These displays are powered directly through the Arduino output pins.
-**COMMON_CATHODE** For common cathode displays without switches. These displays require a low voltage at the digit pin to illuminate the digit.
-**COMMON_ANODE** For common anode displays without switches. These displays require a high voltage at the digit pin to illuminate the digit.
+##### Simple, Low Power Displays  
+These displays are powered directly through the Arduino output pins.  
+**COMMON_CATHODE** \- For common cathode displays without switches. These displays require a low voltage at the digit pin to illuminate the digit.  
+**COMMON_ANODE** \- For common anode displays without switches. These displays require a high voltage at the digit pin to illuminate the digit.
 
-**Displays with Switches**
-Some displays (mostly bigger ones) use switching transistors, but most people won't have to worry about the configurations below.
-**N_TRANSISTORS** If you use N-type transistors to sink current (or any other active-high, low-side switches).
-**P_TRANSISTORS** If you use P-type transistors to supply current (or any other active-low, high-side switches).
-**NP_COMMMON_CATHODE** If your setup uses N-type AND P-type transistors with a common cathode display.
-**NP_COMMMON_ANODE** If your setup uses N-type AND P-type transistors with a common anode display.
+##### Displays with Switches  
+Some displays (mostly bigger ones) use switching transistors, but most people won't have to worry about the configurations below.  
+**N_TRANSISTORS** \- If you use N-type transistors to sink current (or any other active-high, low-side switches).  
+**P_TRANSISTORS** \- If you use P-type transistors to supply current (or any other active-low, high-side switches).  
+**NP_COMMMON_CATHODE** \- If your setup uses N-type AND P-type transistors with a common cathode display.  
+**NP_COMMMON_ANODE** \- If your setup uses N-type AND P-type transistors with a common anode display.  
 Note that use of active-high, high-side switches will have no impact on the configuration chosen. There are usually called high-side switches.
 
 
 #### Example Display
 
-I have a cheap, 4-digit, common anode display from eBay, and the pins of the display are in the following order when viewed from the front:
-**Top Row**
-1,a,f,2,3,b
-**Bottom Row**
-e,d,dp,c,g,4
+I have a cheap, 4-digit, common anode display from eBay, and the pins of the display are in the following order when viewed from the front:  
+**Top Row**  
+1,a,f,2,3,b  
+**Bottom Row**  
+e,d,dp,c,g,4  
 Where the digit pins are 1-4 and the segment pins are a-g + dp
 
 * * *
@@ -104,9 +102,8 @@ digitPins is an array that stores the arduino pin numbers that the segments are 
      sevseg.setNumber(3141,3); // Displays '3.141'
 
 
-The first argument is the number to display. The second argument indicates where the decimal place should be, counted from the least significant digit. E.g. to display an integer, the second argument is 0.
+The first argument is the number to display. The second argument indicates where the decimal place should be, counted from the least significant digit. E.g. to display an integer, the second argument is 0.  
 Floats are supported. In this case, the second argument indicated how many decimal places of precision you want to display. E.g:
-
 
 
      sevseg.setNumber(3.141f,3); //Displays '3.141'
@@ -129,7 +126,7 @@ Your program must run the refreshDisplay() function repeatedly to display the nu
      sevseg.setBrightness(90);
 
 
-The brightness can be adjusted using a value between 0 and 100.
+The brightness can be adjusted using a value between 0 and 100.  
 Note that a 0 does not correspond to no brightness. If you wish for the display to be any dimmer than 0, run `sevseg.refreshDisplay();` less frequently.
 
 [1]: https://github.com/DeanIsMe/SevSeg
