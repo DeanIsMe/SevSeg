@@ -1,0 +1,4 @@
+SevSeg	KEYWORD1
+setNumber	KEYWORD2
+refreshDisplay	KEYWORD2
+setBrightness	KEYWORD2
