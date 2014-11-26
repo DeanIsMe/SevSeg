@@ -13,8 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  
- This example demonstrates a very simple use of the SevSeg library.
- It displays a counter that counts up, showing deci-seconds.
+ 
+ This example demonstrates a very simple use of the SevSeg library with a 4
+ digit display. It displays a counter that counts up, showing deci-seconds.
  */
 
 #include "SevSeg.h"

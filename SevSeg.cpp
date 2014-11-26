@@ -14,12 +14,11 @@
  limitations under the License.
  
  
- This library allows an arduino to easily display numbers in decimal format on
- a 4 digit 7-segment display without a separate 7-segment display controller.
+ This library allows an Arduino to easily display numbers in decimal format on
+ a 7-segment display without a separate 7-segment display controller.
  
  Direct any questions or suggestions to deanreading@hotmail.com
- 
- See the included documentation file for instructions.
+ See the included readme for instructions.
  
  CHANGELOG
  

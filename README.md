@@ -75,7 +75,7 @@ Where the digit pins are 1-4 and the segment pins are a-g + dp
 
 ### SOFTWARE
 
-To install, copy the SevSeg folder which contains the .cpp and .h files into your arduino sketchbooklibraries folder. More detailed instructions are [here][3].
+To install, copy the SevSeg folder into your arduino sketchbook\-libraries folder. More detailed instructions are [here][3].
 
 
 #### Setting Up
