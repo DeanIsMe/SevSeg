@@ -292,10 +292,11 @@ void SevSeg::setDigitCodes(byte digits[], byte decPlaces) {
   // Set the digitCode for each digit in the display
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitCodes[digitNum] = digitCodeMap[digits[digitNum]];
+    // Set the decimal place segment
+    if (digitNum == numDigits - 1 - decPlaces) {
+     digitCodes[digitNum] |= B10000000;
+    }
   }
-
-  // Set the decimal place segment
-  digitCodes[numDigits - 1 - decPlaces] |= B10000000;
 }
 
 /// END ///
