@@ -39,10 +39,14 @@ Your display should have:
 **8 Segment Pins** \- One for each of the seven segments plus the decimal point.
 
 
-#### Connections
+#### Arduino Connections
 
-All digit pins and segment pins can be connected to any of the Arduino's digital or analog pins; just make sure you take note of your connections! Don't forget that the display uses LEDs, so you should use current-limiting resistors in series with the digit pins. 330 ohms is a safe value if you're unsure.
+All digit pins and segment pins can be connected to any of the Arduino's digital or analog pins; just make sure you take note of your connections!
 
+
+#### Current-limiting Resistors
+
+Don't forget that the display uses LEDs, so you should use current-limiting resistors in series with the *digit pins*. 330 ohms is a safe value if you're unsure. If you use current-limiting resistors on the *segment pins* instead, then open up the SevSeg.h file and set RESISTORS_ON_SEGMENTS to 1 for optimal brightness.
 
 #### Hardware Configuration
 

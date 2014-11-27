@@ -129,7 +129,10 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn,
 // Flashes the output on the seven segment display.
 // This is achieved by cycling through all segments and digits, turning the
 // required segments on as specified by the array 'digitCodes'.
+// There are 2 versions of this function, with the choice depending on the
+// location of the current-limiting resistors.
 
+#if !(RESISTORS_ON_SEGMENTS)
 void SevSeg::refreshDisplay(){
   for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
 
@@ -144,13 +147,37 @@ void SevSeg::refreshDisplay(){
     //Wait with lights on (to increase brightness)
     delayMicroseconds(ledOnTime); 
 
-    //Turn all segments off
+    //Turn all lights off
     for (byte digitNum=0 ; digitNum < numDigits ; digitNum++){
       digitalWrite(digitPins[digitNum], digitOff);
     }
     digitalWrite(segmentPins[segmentNum], segmentOff);
   }
 }
+
+#else
+void SevSeg::refreshDisplay(){
+  for (byte digitNum=0 ; digitNum < numDigits ; digitNum++){
+
+    // Illuminate the required segments for this digit
+    digitalWrite(digitPins[digitNum], digitOn);
+    for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
+      if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
+        digitalWrite(segmentPins[segmentNum], segmentOn);
+      }
+    }
+
+    //Wait with lights on (to increase brightness)
+    delayMicroseconds(ledOnTime);
+
+    //Turn all lights off
+    for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
+      digitalWrite(segmentPins[segmentNum], segmentOff);
+    }
+    digitalWrite(digitPins[digitNum], digitOff);
+  }
+}
+#endif
 
 
 // setBrightness

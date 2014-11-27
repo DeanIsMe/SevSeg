@@ -21,6 +21,12 @@
  See the included readme for instructions.
  */
 
+// If you use current-limiting resistors on your segment pins instead of the
+// digit pins, then change the '0' in the line below to a '1'
+#define RESISTORS_ON_SEGMENTS 0
+
+
+
 #ifndef SevSeg_h
 #define SevSeg_h
 
