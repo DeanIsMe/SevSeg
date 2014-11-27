@@ -24,7 +24,7 @@ Direct any questions or suggestions to deanreading@hotmail.com. If I have the ti
 
 #### Previous Versions Note
 
-This version is not compatible with previous versions of the SevSeg library, which have been available since 2011. You can download the [old version][2] for compatibility with previously written programs. .
+This version is not compatible with previous versions of the SevSeg library, which have been available since 2012. You can download the [old version][2] for compatibility with previously written programs. .
 
 Thanks to Mark Chambers and Nathan Seidle for code used in updates.
 
