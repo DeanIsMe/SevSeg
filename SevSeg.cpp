@@ -98,7 +98,7 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn,
   }
 
   digitOff = !digitOn;
-  segmentOff = !segmentOff;
+  segmentOff = !segmentOn;
 
   // Save the input pin numbers to library variables
   for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
