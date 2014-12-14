@@ -251,8 +251,8 @@ void SevSeg::setNewNum(long numToShow, byte decPlaces){
 // Enforces the upper and lower limits on the number to be displayed.
 
 void SevSeg::findDigits(long numToShow, byte decPlaces, byte digits[]) {
-  static const int maxNum = powersOf10[numDigits] - 1;
-  static const int minNum = -(powersOf10[numDigits - 1] - 1);
+  static const long maxNum = powersOf10[numDigits] - 1;
+  static const long minNum = -(powersOf10[numDigits - 1] - 1);
 
   // If the number is out of range, just display dashes
   if (numToShow > maxNum || numToShow < minNum) {
