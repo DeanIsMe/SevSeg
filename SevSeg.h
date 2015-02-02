@@ -24,7 +24,7 @@
 // If you use current-limiting resistors on your segment pins instead of the
 // digit pins, then change the '0' in the line below to a '1'
 #define RESISTORS_ON_SEGMENTS 0
-
+#define MAXNUMDIGITS 8 //Increase this number to support larger displays
 
 
 #ifndef SevSeg_h
@@ -68,10 +68,10 @@ private:
   void setDigitCodes(byte nums[], byte decPlaces);
 
   boolean digitOn,digitOff,segmentOn,segmentOff;
-  byte* digitPins; // Array length is not yet known
+  byte digitPins[MAXNUMDIGITS];
   byte segmentPins[8];
   byte numDigits;
-  byte* digitCodes; // Array length is not yet known
+  byte digitCodes[MAXNUMDIGITS];
   int ledOnTime;
   const static long powersOf10[10];
 

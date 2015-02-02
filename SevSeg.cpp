@@ -69,10 +69,10 @@ SevSeg::SevSeg()
 
 void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, 
                   byte digitPinsIn[], byte segmentPinsIn[]) {
+                    
   numDigits = numDigitsIn;
-
-  digitCodes = new byte[numDigits];
-  digitPins = new byte[numDigits];
+  //Limit the max number of digits to prevent overflowing
+  if (numDigits > MAXNUMDIGITS) numDigits = MAXNUMDIGITS;
 
   switch (hardwareConfig){
 
