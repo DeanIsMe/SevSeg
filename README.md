@@ -65,15 +65,23 @@ Some displays (mostly bigger ones) use switching transistors, but most people wo
 **NP_COMMMON_ANODE** \- If your setup uses N-type AND P-type transistors with a common anode display.  
 Note that use of active-high, high-side switches will have no impact on the configuration chosen. There are usually called high-side switches.
 
+#### Pinouts of select displays  
 
-#### Example Display
+* In the below pinout, digits are numbered 1, 2, 3, 4, etc.  
+* Segments are numbered A through G, according to [this picture](https://en.wikipedia.org/wiki/File:7_segment_display_labeled.svg)  
+ * Source: https://en.wikipedia.org/wiki/Seven-segment_display
+* DP, or just P is for "Decimal 'P'oint"  
+* pins are as shown when looking *down* on the display, with the numbers facing UP towards the sky  
 
-I have a cheap, 4-digit, common anode display from eBay, and the pins of the display are in the following order when viewed from the front:  
-**Top Row**  
-1,a,f,2,3,b  
-**Bottom Row**  
-e,d,dp,c,g,4  
-Where the digit pins are 1-4 and the segment pins are a-g + dp
+* * * 
+
+1) Cheap, 4-digit, 12-pin display from Ebay (labelled HS410561k-32 on bottom edge):  
+-Common-anode type  
+-has two rows of 6 pins each  
+```
+Top Row:    1 A F 2 3 B  
+Bottom Row: E D P C G 4  
+```
 
 * * *
 
