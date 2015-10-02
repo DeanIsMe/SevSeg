@@ -133,6 +133,8 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn,
 // location of the current-limiting resistors.
 
 #if !(RESISTORS_ON_SEGMENTS)
+//For resistors on *digits* we will cycle through all 8 segments (7 + period), turning on the *digits* as appropriate
+//for a given segment, before moving on to the next segment
 void SevSeg::refreshDisplay(){
   for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
 
@@ -156,6 +158,8 @@ void SevSeg::refreshDisplay(){
 }
 
 #else
+//For resistors on *segments* we will cycle through all __ # of digits, turning on the *segments* as appropriate
+//for a given digit, before moving on to the next digit
 void SevSeg::refreshDisplay(){
   for (byte digitNum=0 ; digitNum < numDigits ; digitNum++){
 
