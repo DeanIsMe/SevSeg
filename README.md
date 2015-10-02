@@ -75,7 +75,7 @@ Note that use of active-high, high-side switches will have no impact on the conf
 
 * * * 
 
-1) Cheap, 4-digit, 12-pin display from Ebay (labelled HS410561k-32 on bottom edge):  
+1) [Cheap, 4-digit, 12-pin display from Ebay](http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15) (labelled HS410561k-32 on bottom edge):  
 -Common-anode type  
 -has two rows of 6 pins each  
 ```
