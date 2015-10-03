@@ -53,7 +53,6 @@ void loop()
 {
   //local vars
   static byte decPlace = 0;
-  static unsigned long t_start = 0; //ms
   
   sevseg.setNumber(8888,decPlace);
   decPlace++;
