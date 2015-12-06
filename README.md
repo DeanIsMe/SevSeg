@@ -105,7 +105,7 @@ To install, copy the SevSeg folder into your arduino sketchbook\-libraries folde
 
 
 digitPins is an array that stores the arduino pin numbers that the digits are connected to. Order them from left to right.
-digitPins is an array that stores the arduino pin numbers that the segments are connected to. Order them from segment a to g , then the decimal place.
+segmentPins is an array that stores the arduino pin numbers that the segments are connected to. Order them from segment a to g , then the decimal place.
 If you wish to use more than 8 digits, increase MAXNUMDIGITS in SevSeg.h.
 
 
