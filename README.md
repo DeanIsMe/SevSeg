@@ -50,7 +50,12 @@ Don't forget that the display uses LEDs, so you should use current-limiting resi
 
 #### Hardware Configuration
 
-You have to specify your hardware configuration to the library. The options are detailed below.
+You have to specify your hardware configuration to the library. 
+
+Set the Display type in the first section of the setup to one of the choices below.
+sevseg.begin(DISPLAY_TYPE, numDigits, digitPins, segmentPins);
+
+The options are detailed below.
 
 ##### Simple, Low Power Displays  
 These displays are powered directly through the Arduino output pins.  
