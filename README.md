@@ -16,7 +16,7 @@ SevSeg
 
 This library turns your Arduino into a seven segment display controller! Use it to easily display numbers on your seven segment display without any additional controllers.
 
-It supports common cathode and common anode displays, and the use of switching transistors. Displays with any number of digits can be used, and decimal places are supported.
+It supports common cathode and common anode displays, and the use of switching transistors. Displays with 1 to 9 digits can be used, and decimal places are supported. Characters and strings are not supported.
 
 [Download it from GitHub][1].
 
@@ -24,7 +24,7 @@ Direct any questions or suggestions to deanreading@hotmail.com. If I have the ti
 
 #### Previous Versions Note
 
-This version is not compatible with previous versions of the SevSeg library, which have been available since 2012. You can download the [old version][2] for compatibility with previously written programs. .
+This version is not compatible with previous versions of the SevSeg library, which have been available since 2012. You can download the [old version][2] for compatibility with previously written programs.
 
 Thanks to Mark Chambers and Nathan Seidle for code used in updates.
 
@@ -50,37 +50,32 @@ Don't forget that the display uses LEDs, so you should use current-limiting resi
 
 #### Hardware Configuration
 
-You have to specify your hardware configuration to the library. The options are detailed below.
+You have to specify your hardware configuration to the library as the first argument in sevseg.begin. The options are detailed below.
 
 ##### Simple, Low Power Displays  
 These displays are powered directly through the Arduino output pins.  
-**COMMON_CATHODE** \- For common cathode displays without switches. These displays require a low voltage at the digit pin to illuminate the digit.  
-**COMMON_ANODE** \- For common anode displays without switches. These displays require a high voltage at the digit pin to illuminate the digit.
+  * **COMMON_CATHODE** \- For common cathode displays without switches. These displays require a low voltage at the digit pin to illuminate the digit.  
+  * **COMMON_ANODE** \- For common anode displays without switches. These displays require a high voltage at the digit pin to illuminate the digit.
 
 ##### Displays with Switches  
 Some displays (mostly bigger ones) use switching transistors, but most people won't have to worry about the configurations below.  
-**N_TRANSISTORS** \- If you use N-type transistors to sink current (or any other active-high, low-side switches).  
-**P_TRANSISTORS** \- If you use P-type transistors to supply current (or any other active-low, high-side switches).  
-**NP_COMMMON_CATHODE** \- If your setup uses N-type AND P-type transistors with a common cathode display.  
-**NP_COMMMON_ANODE** \- If your setup uses N-type AND P-type transistors with a common anode display.  
+  * **N_TRANSISTORS** \- If you use N-type transistors to sink current (or any other active-high, low-side switches).  
+  * **P_TRANSISTORS** \- If you use P-type transistors to supply current (or any other active-low, high-side switches).  
+  * **NP_COMMMON_CATHODE** \- If your setup uses N-type AND P-type transistors with a common cathode display.  
+  * **NP_COMMMON_ANODE** \- If your setup uses N-type AND P-type transistors with a common anode display.  
 Note that use of active-high, high-side switches will have no impact on the configuration chosen. There are usually called high-side switches.
 
-#### Pinouts of select displays  
+#### Example Pinout 
 
-* In the below pinout, digits are numbered 1, 2, 3, 4, etc.  
-* Segments are numbered A through G, according to [this picture](https://en.wikipedia.org/wiki/File:7_segment_display_labeled.svg)  
- * Source: https://en.wikipedia.org/wiki/Seven-segment_display
-* DP, or just P is for "Decimal 'P'oint"  
-* pins are as shown when looking *down* on the display, with the numbers facing UP towards the sky  
+In the below pinout, digits are numbered 1, 2, 3, 4.
+Segments are numbered A through G plus Decimal Point (DP), according to [this picture][4].
+Pins are ordered as looking at the front of the display.
 
-* * * 
-
-1) [Cheap, 4-digit, 12-pin display from Ebay](http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15) (labelled HS410561k-32 on bottom edge):  
--Common-anode type  
--has two rows of 6 pins each  
+[Cheap, 4-digit, 12-pin display from Ebay][5] (labelled HS410561k-32 on bottom edge):  
+4-digit common anode display, with 2 rows of 6 pins.
 ```
-Top Row:    1 A F 2 3 B  
-Bottom Row: E D P C G 4  
+Top Row:    1 A F  2 3 B  
+Bottom Row: E D DP C G 4  
 ```
 
 * * *
@@ -140,9 +135,11 @@ Your program must run the refreshDisplay() function repeatedly to display the nu
 
 
 The brightness can be adjusted using a value between 0 and 100.  
-Note that a 0 does not correspond to no brightness. If you wish for the display to be any dimmer than 0, run `sevseg.refreshDisplay();` less frequently.
+Note that a 0 does not correspond to no brightness. If you wish for the display to be any dimmer than 0, run `sevseg.refreshDisplay();` less frequently. If your display has noticeable flickering, reducing the brightness level may correct it.
 
 [1]: https://github.com/DeanIsMe/SevSeg
 [2]: https://docs.google.com/file/d/0Bwrp4uluZCpNdE9oWTY0M3BncTA/edit?usp=sharing
 [3]: http://arduino.cc/en/Guide/Libraries
+[4]: https://en.wikipedia.org/wiki/File:7_segment_display_labeled.svg
+[5]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
   
