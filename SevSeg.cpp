@@ -21,7 +21,9 @@
  See the included readme for instructions.
  
  CHANGELOG
- 
+
+ Version 3.1 - September 2016
+ Bug Fixes. No longer uses dynamic memory allocation.
  Version 3.0 - November 2014
  Library re-design. A display with any number of digits can be used.
  Floats are supported. Support for using transistors for switching.
