@@ -240,6 +240,31 @@ void SevSeg::setNumber(float numToShow, byte decPlaces) //float
 }
 
 
+// setSegments
+/******************************************************************************/
+// Sets the 'digitCodes' that are required to display the desired segments.
+// Using this function, one can display any arbitrary set of segments (like
+// letters, symbols or animated cursors). See setDigitCodes() for common
+// numeric examples.
+//
+// Bit-segment mapping:  0bHGFEDCBA
+//      Visual mapping:
+//                        AAAA          0000
+//                       F    B        5    1
+//                       F    B        5    1
+//                        GGGG          6666
+//                       E    C        4    2
+//                       E    C        4    2        (Segment H is often called
+//                        DDDD  H       3333  7      DP, for Decimal Point)
+
+void SevSeg::setSegments(byte segs[])
+{
+  for (byte digit = 0; digit < numDigits; digit++) {
+	  digitCodes[digit] = segs[digit];
+  }
+}
+
+
 // setNewNum
 /******************************************************************************/
 // Changes the number that will be displayed.
