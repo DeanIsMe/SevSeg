@@ -333,6 +333,8 @@ void SevSeg::setDigitCodes(byte digits[], byte decPlaces) {
   // The codes below indicate which segments must be illuminated to display
   // each number.
   static const byte digitCodeMap[] = {
+  // Segments:    [see setSegments() for bit/segment mapping]
+  // HGFEDCBA  // Char:
     B00111111, // 0
     B00000110, // 1
     B01011011, // 2
@@ -344,7 +346,8 @@ void SevSeg::setDigitCodes(byte digits[], byte decPlaces) {
     B01111111, // 8
     B01101111, // 9
     B00000000, // BLANK
-    B01000000    }; // DASH
+    B01000000, // DASH
+  };
 
   // Set the digitCode for each digit in the display
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
