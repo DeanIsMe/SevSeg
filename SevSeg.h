@@ -62,6 +62,8 @@ public:
   void setNumber(byte numToShow, byte decPlaces);
   void setNumber(float numToShow, byte decPlaces);
 
+  void setSegments(byte segs[]);
+
 private:
   void setNewNum(long numToShow, byte decPlaces);
   void findDigits(long numToShow, byte decPlaces, byte nums[]);
