@@ -1,6 +1,6 @@
 /* SevSeg Counter Example
  
- Copyright 2014 Dean Reading
+ Copyright 2016 Dean Reading
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,15 +19,16 @@
  */
 
 #include "SevSeg.h"
-
 SevSeg sevseg; //Instantiate a seven segment controller object
 
 void setup() {
   byte numDigits = 4;   
   byte digitPins[] = {2, 3, 4, 5};
   byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
-
-  sevseg.begin(COMMON_ANODE, numDigits, digitPins, segmentPins);
+  bool resistorsOnSegments = false; // Use 'true' if on digit pins
+  byte hardwareConfig = COMMON_ANODE; // See README.md for options
+  
+  sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments);
   sevseg.setBrightness(90);
 }
 

@@ -1,6 +1,6 @@
 /* SevSeg Library
  
- Copyright 2014 Dean Reading
+ Copyright 2016 Dean Reading
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,11 +21,7 @@
  See the included readme for instructions.
  */
 
-// If you use current-limiting resistors on your segment pins instead of the
-// digit pins, then change the '0' in the line below to a '1'
-#define RESISTORS_ON_SEGMENTS 0
-#define MAXNUMDIGITS 8 //Increase this number to support larger displays
-
+#define MAXNUMDIGITS 8 // Can be increased, but the max number is 2^31
 
 #ifndef SevSeg_h
 #define SevSeg_h
@@ -51,32 +47,36 @@ public:
   SevSeg();
 
   void refreshDisplay();
-  void begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[], byte segmentPinsIn[]);
+  void begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
+          byte segmentPinsIn[], bool resOnSegmentsIn=0, bool updateWithDelaysIn=0);
   void setBrightness(int brightnessIn); // A number from 0..100
 
-  void setNumber(long numToShow, byte decPlaces);
-  void setNumber(unsigned long numToShow, byte decPlaces);
-  void setNumber(int numToShow, byte decPlaces);
-  void setNumber(unsigned int numToShow, byte decPlaces);
-  void setNumber(char numToShow, byte decPlaces);
-  void setNumber(byte numToShow, byte decPlaces);
-  void setNumber(float numToShow, byte decPlaces);
+  void setNumber(long numToShow, char decPlaces=-1, bool hex=0);
+  void setNumber(unsigned long numToShow, char decPlaces=-1, bool hex=0);
+  void setNumber(int numToShow, char decPlaces=-1, bool hex=0);
+  void setNumber(unsigned int numToShow, char decPlaces=-1, bool hex=0);
+  void setNumber(char numToShow, char decPlaces=-1, bool hex=0);
+  void setNumber(byte numToShow, char decPlaces=-1, bool hex=0);
+  void setNumber(float numToShow, char decPlaces=-1, bool hex=0);
 
   void setSegments(byte segs[]);
+  void setChars(char str[]);
+  void blank(void);
 
 private:
-  void setNewNum(long numToShow, byte decPlaces);
-  void findDigits(long numToShow, byte decPlaces, byte nums[]);
-  void setDigitCodes(byte nums[], byte decPlaces);
+  void setNewNum(long numToShow, char decPlaces, bool hex=0);
+  void findDigits(long numToShow, char decPlaces, bool hex, byte digits[]);
+  void setDigitCodes(byte nums[], char decPlaces);
 
-  boolean digitOn,digitOff,segmentOn,segmentOff;
+  bool digitOn,digitOff,segmentOn,segmentOff;
+  bool resOnSegments, updateWithDelays;
   byte digitPins[MAXNUMDIGITS];
   byte segmentPins[8];
   byte numDigits;
+  byte prevUpdateIdx;
   byte digitCodes[MAXNUMDIGITS];
   int ledOnTime;
-  const static long powersOf10[10];
-
+  unsigned long prevUpdateTime;
 };
 
 #endif //SevSeg_h

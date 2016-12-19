@@ -1,6 +1,6 @@
 SevSeg
 ======
- Copyright 2014 Dean Reading
+ Copyright 2016 Dean Reading
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,17 +16,23 @@ SevSeg
 
 This library turns your Arduino into a seven segment display controller! Use it to easily display numbers on your seven segment display without any additional controllers.
 
-It supports common cathode and common anode displays, and the use of switching transistors. Displays with 1 to 9 digits can be used, and decimal places are supported. Characters and strings are not supported.
+It supports common cathode and common anode displays, and the use of switching transistors. Numbers can be displayed in decimal or hexadecimal representation, with decimal places. Characters can be displayed (as accurately as possible). It also supports multiple displays, of varying dimensions. Shift registers and similar devices are NOT supported.
 
 [Download it from GitHub][1].
 
 Direct any questions or suggestions to deanreading@hotmail.com. If I have the time, I'm happy to help you get things working.
 
-#### Previous Versions Note
+#### Update Version 3.2.0 (December 2016)
 
-This version is not compatible with previous versions of the SevSeg library, which have been available since 2012. You can download the [old version][2] for compatibility with previously written programs.
-
-Thanks to Mark Chambers and Nathan Seidle for code used in updates.
+ Backwards compatible with version 3.1
+ Updated to Arduino 1.5 Library Specification
+ New display function - no longer consumes processor time with delay()
+ Now supports hexadecimal number printing
+ The decimal point can now be omitted with a negative decPlaces
+ Alphanumeric strings can be displayed (inaccurately) with setChars
+ Removed #define RESISTORS_ON_SEGMENTS. Now a begin() input
+ Can now blank() the display
+ Now 'heavier' - uses more PROGMEM and RAM
 
 * * *
 
@@ -46,7 +52,7 @@ All digit pins and segment pins can be connected to any of the Arduino's digital
 
 #### Current-limiting Resistors
 
-Don't forget that the display uses LEDs, so you should use current-limiting resistors in series with the *digit pins*. 330 ohms is a safe value if you're unsure. If you use current-limiting resistors on the *segment pins* instead, then open up the SevSeg.h file and set RESISTORS_ON_SEGMENTS to 1 for optimal brightness.
+Don't forget that the display uses LEDs, so you should use current-limiting resistors in series with the *digit pins*. 330 ohms is a safe value if you're unsure. If you use current-limiting resistors on the *segment pins* instead, then set resistorsOnSegments to true (see the example SevSeg_Counter.ino).
 
 #### Hardware Configuration
 
@@ -83,6 +89,7 @@ Bottom Row: E D DP C G 4
 ### SOFTWARE
 
 To install, copy the SevSeg folder into your arduino sketchbook\-libraries folder. More detailed instructions are [here][3].
+The Library Manager can be used from arduino version 1.6.2.
 
 
 #### Setting Up
@@ -92,10 +99,12 @@ To install, copy the SevSeg folder into your arduino sketchbook\-libraries folde
      SevSeg sevseg; //Instantiate a seven segment object
 
     void setup() {
-       byte numDigits = 4;
+       byte numDigits = 4;   
        byte digitPins[] = {2, 3, 4, 5};
        byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
-       sevseg.begin(COMMON_ANODE, numDigits, digitPins, segmentPins);
+       bool resistorsOnSegments = false; // Use 'true' if on digit pins
+       byte hardwareConfig = COMMON_ANODE; // See README.md for options
+       sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments);
        ...
 
 
@@ -104,38 +113,55 @@ segmentPins is an array that stores the arduino pin numbers that the segments ar
 If you wish to use more than 8 digits, increase MAXNUMDIGITS in SevSeg.h.
 
 
-#### Setting the Number
+#### Setting a Number
 
 
      sevseg.setNumber(3141,3); // Displays '3.141'
 
 
 The first argument is the number to display. The second argument indicates where the decimal place should be, counted from the least significant digit. E.g. to display an integer, the second argument is 0.  
-Floats are supported. In this case, the second argument indicated how many decimal places of precision you want to display. E.g:
+Floats are supported. In this case, the second argument indicates how many decimal places of precision you want to display. E.g:
 
 
-     sevseg.setNumber(3.141f,3); //Displays '3.141'
+     sevseg.setNumber(3.14159f,3); //Displays '3.141'
 
 
-Out of range numbers show up as ------.
+Out of range numbers are shown as '----'.
 
-#### Displaying the Number
+If the second argument is -1 or omitted, there will be no decimal place.
+
+Enter 'true' as the third agument to display the number in hexadecimal representation.
+
+#### Setting a Character String
+
+
+     sevseg.setChars("abcd");
+
+Character arrays can be displayed - as accurately as possible on a seven segment display. See SevSeg.cpp digitCodeMap[] to notes on each character. Only alphanumeric characters, plus ' ' and '-' are supported. The character array should be NULL terminated.
+
+
+#### Displaying
 
 
      sevseg.refreshDisplay();
 
 
-Your program must run the refreshDisplay() function repeatedly to display the number.
+Your program must run the refreshDisplay() function repeatedly to display the number. Note that any delays introduced by other functions will produce undesirable effects on the display.
+
+To blank the display, call:
+
+     sevseg.blank();
 
 
-#### Set the Brightness
+
+#### Setting the Brightness
 
 
      sevseg.setBrightness(90);
 
 
 The brightness can be adjusted using a value between 0 and 100.  
-Note that a 0 does not correspond to no brightness. If you wish for the display to be any dimmer than 0, run `sevseg.refreshDisplay();` less frequently. If your display has noticeable flickering, reducing the brightness level may correct it.
+Note that a 0 does not correspond to no brightness. If your display has noticeable flickering, reducing the brightness level may correct it.
 
 [1]: https://github.com/DeanIsMe/SevSeg
 [2]: https://docs.google.com/file/d/0Bwrp4uluZCpNdE9oWTY0M3BncTA/edit?usp=sharing
