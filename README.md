@@ -24,15 +24,16 @@ Direct any questions or suggestions to deanreading@hotmail.com. If I have the ti
 
 #### Update Version 3.2.0 (December 2016)
 
- Backwards compatible with version 3.1
- Updated to Arduino 1.5 Library Specification
- New display function - no longer consumes processor time with delay()
- Now supports hexadecimal number printing
- The decimal point can now be omitted with a negative decPlaces
- Alphanumeric strings can be displayed (inaccurately) with setChars
- Removed #define RESISTORS_ON_SEGMENTS. Now a begin() input
- Can now blank() the display
- Now 'heavier' - uses more PROGMEM and RAM
+ Backwards compatible with version 3.1  
+ Updated to Arduino 1.5 Library Specification  
+ New display function - no longer consumes processor time with delay()  
+ Now supports hexadecimal number printing  
+ The decimal point can now be omitted with a negative decPlaces   
+ Alphanumeric strings can be displayed (inaccurately) with setChars   
+ Removed #define RESISTORS_ON_SEGMENTS. Now a begin() input   
+ Can now blank() the display   
+ Now 'heavier' - uses more PROGMEM and RAM  
+
 
 * * *
 
