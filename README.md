@@ -22,6 +22,11 @@ It supports common cathode and common anode displays, and the use of switching t
 
 Direct any questions or suggestions to deanreading@hotmail.com. If I have the time, I'm happy to help you get things working.
 
+#### Update Version 3.3.0 (February 2017)
+
+ Added the ability to keep leading zeros. This is now an extra
+ parameter in the begin() function.
+ 
 #### Update Version 3.2.0 (December 2016)
 
  Backwards compatible with version 3.1  

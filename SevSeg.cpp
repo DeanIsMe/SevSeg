@@ -1,6 +1,6 @@
 /* SevSeg Library
 
-  Copyright 2016 Dean Reading
+  Copyright 2017 Dean Reading
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,6 +22,10 @@
   https://github.com/DeanIsMe/SevSeg
 
   CHANGELOG
+  Version 3.3.0 - February 2017
+  Added the ability to keep leading zeros. This is now an extra
+  parameter in the begin() function.
+  
   Version 3.2.0 - December 2016
   Updated to Arduino 1.5 Library Specification
   New display function - no longer consumes processor time with delay()
@@ -145,10 +149,12 @@ SevSeg::SevSeg()
 // Set updateWithDelays to true if you want to use the 'pre-2017' update method
 // That method occupies the processor with delay functions.
 void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
-                   byte segmentPinsIn[], bool resOnSegmentsIn, bool updateWithDelaysIn) {
+                   byte segmentPinsIn[], bool resOnSegmentsIn,
+                   bool updateWithDelaysIn, bool leadingZerosIn) {
 
   resOnSegments = resOnSegmentsIn;
   updateWithDelays = updateWithDelaysIn;
+  leadingZeros = leadingZerosIn;
 
   numDigits = numDigitsIn;
   //Limit the max number of digits to prevent overflowing
@@ -233,7 +239,7 @@ void SevSeg::refreshDisplay() {
     if (!resOnSegments) {
       /**********************************************/
       // RESISTORS ON DIGITS, UPDATE WITHOUT DELAYS
-      
+
 
       // Turn all lights off for the previous segment
       for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
@@ -502,13 +508,15 @@ void SevSeg::findDigits(long numToShow, char decPlaces, bool hex, byte digits[])
 
     // Find unnnecessary leading zeros and set them to BLANK
     if (decPlaces < 0) decPlaces = 0;
-    for (digitNum = 0 ; digitNum < (numDigits - 1 - decPlaces) ; digitNum++) {
-      if (digits[digitNum] == 0) {
-        digits[digitNum] = BLANK_IDX;
-      }
-      // Exit once the first non-zero number is encountered
-      else if (digits[digitNum] <= 9) {
-        break;
+    if (!leadingZeros) {
+      for (digitNum = 0 ; digitNum < (numDigits - 1 - decPlaces) ; digitNum++) {
+        if (digits[digitNum] == 0) {
+          digits[digitNum] = BLANK_IDX;
+        }
+        // Exit once the first non-zero number is encountered
+        else if (digits[digitNum] <= 9) {
+          break;
+        }
       }
     }
 

@@ -1,6 +1,6 @@
 /* SevSeg Counter Example
  
- Copyright 2016 Dean Reading
+ Copyright 2017 Dean Reading
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,13 +22,15 @@
 SevSeg sevseg; //Instantiate a seven segment controller object
 
 void setup() {
-  byte numDigits = 4;   
+  byte numDigits = 4;
   byte digitPins[] = {2, 3, 4, 5};
   byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
   bool resistorsOnSegments = false; // 'false' means resistors are on digit pins
   byte hardwareConfig = COMMON_ANODE; // See README.md for options
+  bool updateWithDelays = false; // Default. Recommended
+  bool leadingZeros = false; // Use 'true' if you'd like to keep the leading zeros
   
-  sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments);
+  sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments, updateWithDelays, leadingZeros);
   sevseg.setBrightness(90);
 }
 

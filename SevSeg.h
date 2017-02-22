@@ -1,6 +1,6 @@
 /* SevSeg Library
  
- Copyright 2016 Dean Reading
+ Copyright 2017 Dean Reading
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,8 +20,10 @@
  Direct any questions or suggestions to deanreading@hotmail.com
  See the included readme for instructions.
  */
-
+ 
+#ifndef MAXNUMDIGITS
 #define MAXNUMDIGITS 8 // Can be increased, but the max number is 2^31
+#endif
 
 #ifndef SevSeg_h
 #define SevSeg_h
@@ -48,7 +50,8 @@ public:
 
   void refreshDisplay();
   void begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
-          byte segmentPinsIn[], bool resOnSegmentsIn=0, bool updateWithDelaysIn=0);
+          byte segmentPinsIn[], bool resOnSegmentsIn=0, 
+          bool updateWithDelaysIn=0, bool leadingZerosIn=0);
   void setBrightness(int brightnessIn); // A number from 0..100
 
   void setNumber(long numToShow, char decPlaces=-1, bool hex=0);
@@ -69,7 +72,7 @@ private:
   void setDigitCodes(byte nums[], char decPlaces);
 
   bool digitOn,digitOff,segmentOn,segmentOff;
-  bool resOnSegments, updateWithDelays;
+  bool resOnSegments, updateWithDelays, leadingZeros;
   byte digitPins[MAXNUMDIGITS];
   byte segmentPins[8];
   byte numDigits;
