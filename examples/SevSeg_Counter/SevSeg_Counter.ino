@@ -38,9 +38,10 @@ void loop() {
   static unsigned long timer = millis();
   static int deciSeconds = 0;
   
-  if (millis() >= timer) {
+  if (millis() - timer >= 100) {
+    timer += 100;
     deciSeconds++; // 100 milliSeconds is equal to 1 deciSecond
-    timer += 100; 
+    
     if (deciSeconds == 10000) { // Reset to 0 after counting for 1000 seconds.
       deciSeconds=0;
     }
