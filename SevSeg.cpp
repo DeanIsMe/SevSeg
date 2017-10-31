@@ -25,7 +25,7 @@
   Version 3.3.0 - February 2017
   Added the ability to keep leading zeros. This is now an extra
   parameter in the begin() function.
-  
+
   Version 3.2.0 - December 2016
   Updated to Arduino 1.5 Library Specification
   New display function - no longer consumes processor time with delay()
@@ -54,6 +54,7 @@
 
 #define BLANK_IDX 36 // Must match with 'digitCodeMap'
 #define DASH_IDX 37
+#define PERIOD_IDX 38
 
 static const long powersOf10[] = {
   1, // 10^0
@@ -121,6 +122,7 @@ static const byte digitCodeMap[] = {
   B01011011, // 90  'Z'  Same as '2'
   B00000000, // 32  ' '  BLANK
   B01000000, // 45  '-'  DASH
+  B10000000, // 46  '.'  PERIOD
 };
 
 // Constant pointers to constant data
@@ -441,8 +443,10 @@ void SevSeg::setChars(char str[])
     digitCodes[digit] = 0;
   }
 
-  for (byte digitNum = 0; digitNum < numDigits; digitNum++) {
-    char ch = str[digitNum];
+  byte strIdx = 0; // Current position within str[]
+  byte additionDigits = 0; // For periods (".") added to cells as decimal point
+  for (byte digitNum = 0; digitNum < (numDigits + additionDigits); digitNum++) {
+    char ch = str[strIdx];
     if (ch == '\0') break; // NULL string terminator
     if (ch >= '0' && ch <= '9') { // Numerical
       digitCodes[digitNum] = numeralCodes[ch - '0'];
@@ -456,10 +460,35 @@ void SevSeg::setChars(char str[])
     else if (ch == ' ') {
       digitCodes[digitNum] = digitCodeMap[BLANK_IDX];
     }
+    else if (ch == '.') {
+      boolean periodInOwnCell = false;
+
+      if (strIdx == 0) {
+        // If this is the first character, add period in its own cell
+        periodInOwnCell = true;
+      }
+      else if (str[strIdx-1] == '.') {
+        // Previous cell already is or has a period, this gets its own cell
+        periodInOwnCell = true;
+      }
+
+      if (periodInOwnCell) {
+        // Add period in own cell like any other character
+        digitCodes[digitNum] = digitCodeMap[PERIOD_IDX];
+      }
+      else {
+        // Add decimal point to previous cell and set loop to run +1 times
+        digitNum--;
+        digitCodes[digitNum] |= digitCodeMap[PERIOD_IDX];
+        additionDigits++;
+      }
+    }
     else {
       // Every unknown character is shown as a dash
       digitCodes[digitNum] = digitCodeMap[DASH_IDX];
     }
+
+    strIdx++;
   }
 }
 

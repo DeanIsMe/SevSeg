@@ -143,7 +143,7 @@ Enter 'true' as the third agument to display the number in hexadecimal represent
 
      sevseg.setChars("abcd");
 
-Character arrays can be displayed - as accurately as possible on a seven segment display. See SevSeg.cpp digitCodeMap[] to notes on each character. Only alphanumeric characters, plus ' ' and '-' are supported. The character array should be NULL terminated.
+Character arrays can be displayed - as accurately as possible on a seven segment display. See SevSeg.cpp digitCodeMap[] to notes on each character. Only alphanumeric characters, plus ' ', '-' and '.' are supported. The character array should be NULL terminated.
 
 
 #### Displaying
