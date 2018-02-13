@@ -444,8 +444,7 @@ void SevSeg::setChars(char str[])
   }
 
   byte strIdx = 0; // Current position within str[]
-  byte additionDigits = 0; // For periods (".") added to cells as decimal point
-  for (byte digitNum = 0; digitNum < (numDigits + additionDigits); digitNum++) {
+    for (byte digitNum = 0; digitNum < numDigits; digitNum++) {
     char ch = str[strIdx];
     if (ch == '\0') break; // NULL string terminator
     if (ch >= '0' && ch <= '9') { // Numerical
@@ -461,27 +460,7 @@ void SevSeg::setChars(char str[])
       digitCodes[digitNum] = digitCodeMap[BLANK_IDX];
     }
     else if (ch == '.') {
-      boolean periodInOwnCell = false;
-
-      if (strIdx == 0) {
-        // If this is the first character, add period in its own cell
-        periodInOwnCell = true;
-      }
-      else if (str[strIdx-1] == '.') {
-        // Previous cell already is or has a period, this gets its own cell
-        periodInOwnCell = true;
-      }
-
-      if (periodInOwnCell) {
-        // Add period in own cell like any other character
-        digitCodes[digitNum] = digitCodeMap[PERIOD_IDX];
-      }
-      else {
-        // Add decimal point to previous cell and set loop to run +1 times
-        digitNum--;
-        digitCodes[digitNum] |= digitCodeMap[PERIOD_IDX];
-        additionDigits++;
-      }
+      digitCodes[digitNum] = digitCodeMap[PERIOD_IDX];
     }
     else {
       // Every unknown character is shown as a dash
@@ -489,6 +468,11 @@ void SevSeg::setChars(char str[])
     }
 
     strIdx++;
+    // Peek at next character. It it's a period, add it to this digit
+    if (str[strIdx] == '.') {
+      digitCodes[digitNum] |= digitCodeMap[PERIOD_IDX];
+      strIdx++;
+    }
   }
 }
 
