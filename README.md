@@ -53,7 +53,7 @@ Your display should have:
 
 #### Arduino Connections
 
-All digit pins and segment pins can be connected to any of the Arduino's digital or analog pins; just make sure you take note of your connections!
+All digit pins and segment pins can be connected to any of the Arduino's digital pins, or analog pians with digital support; just make sure you take note of your connections! Analog pins on most Arduinos have digital support, but the Arduino Nano is an exception.
 
 
 #### Current-limiting Resistors
