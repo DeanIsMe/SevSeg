@@ -208,7 +208,7 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
     digitalWrite(segmentPins[segmentNum], segmentOff);
   }
 
-  setNewNum(0, 0); // Initialise the number displayed to 0
+  blank(); // Initialise the display
 }
 
 
