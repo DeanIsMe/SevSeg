@@ -105,17 +105,22 @@ The Library Manager can be used from arduino version 1.6.2.
      SevSeg sevseg; //Instantiate a seven segment object
 
     void setup() {
-       byte numDigits = 4;   
+       byte numDigits = 4;
        byte digitPins[] = {2, 3, 4, 5};
        byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
        bool resistorsOnSegments = false; // 'false' means resistors are on digit pins
        byte hardwareConfig = COMMON_ANODE; // See README.md for options
-       sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments);
+       bool updateWithDelays = false; // Default 'false' is Recommended
+       bool leadingZeros = false; // Use 'true' if you'd like to keep the leading zeros
+       bool disableDecPoint = false; // Use 'true' if your decimal point doesn't exist or isn't connected
+  
+       sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments,
+       updateWithDelays, leadingZeros, disableDecPoint);
        ...
 
 
 digitPins is an array that stores the arduino pin numbers that the digits are connected to. Order them from left to right.
-segmentPins is an array that stores the arduino pin numbers that the segments are connected to. Order them from segment a to g , then the decimal place.
+segmentPins is an array that stores the arduino pin numbers that the segments are connected to. Order them from segment a to g , then the decimal place (if it's connected).
 If you wish to use more than 8 digits, increase MAXNUMDIGITS in SevSeg.h.
 
 
@@ -166,8 +171,12 @@ To blank the display, call:
      sevseg.setBrightness(90);
 
 
-The brightness can be adjusted using a value between 0 and 100.  
-Note that a 0 does not correspond to no brightness. If your display has noticeable flickering, reducing the brightness level may correct it.
+The brightness can be adjusted using a value between -200 and 200. 0 to 100 is the standard range.
+Numbers greater than 100 and less than -100 may cause noticeable flickering.
+Note that a 0 does not correspond to no brightness - nor does -200. If your display has noticeable flickering, modifying the brightness towards 0 may correct it.
+Results will vary for each implementation. The brightness seen depends on the display characteristics, the arduino model driving it, the resistors used, and the amount of time spent doing other things in the program.
+
+
 
 [1]: https://github.com/DeanIsMe/SevSeg
 [2]: https://docs.google.com/file/d/0Bwrp4uluZCpNdE9oWTY0M3BncTA/edit?usp=sharing

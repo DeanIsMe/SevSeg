@@ -71,17 +71,23 @@ private:
   void setNewNum(long numToShow, char decPlaces, bool hex=0);
   void findDigits(long numToShow, char decPlaces, bool hex, byte digits[]);
   void setDigitCodes(byte nums[], char decPlaces);
+  void segmentOn(byte segmentNum);
+  void segmentOff(byte segmentNum);
+  void digitOn(byte digitNum);
+  void digitOff(byte digitNum);
 
-  bool digitOn,digitOff,segmentOn,segmentOff;
+  bool digitOnVal,digitOffVal,segmentOnVal,segmentOffVal;
   bool resOnSegments, updateWithDelays, leadingZeros;
   byte digitPins[MAXNUMDIGITS];
   byte segmentPins[8];
   byte numDigits;
-  byte numSegments;		   
-  byte prevUpdateIdx;
-  byte digitCodes[MAXNUMDIGITS];
-  int ledOnTime;
-  unsigned long prevUpdateTime;
+  byte numSegments;
+  byte prevUpdateIdx; // The previously updated segment or digit
+  byte digitCodes[MAXNUMDIGITS]; // The active setting of each segment of each digit
+  unsigned long prevUpdateTime; // The time (millis()) when the display was last updated
+  int ledOnTime; // The time (us) to wait with LEDs on
+  int waitOffTime; // The time (us) to wait with LEDs off
+  bool waitOffActive; // Whether  the program is waiting with LEDs off
 };
 
 #endif //SevSeg_h

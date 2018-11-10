@@ -80,7 +80,7 @@ static const long powersOf16[] = {
   0x10000000
 }; // 16^7
 
-// The codes below indicate which segments must be illuminated to display
+// digitCodeMap indicate which segments must be illuminated to display
 // each number.
 static const byte digitCodeMap[] = {
   //     GFEDCBA  Segments      7-segment map:
@@ -135,6 +135,8 @@ SevSeg::SevSeg()
 {
   // Initial value
   ledOnTime = 2000; // Corresponds to a brightness of 100
+  waitOffTime = 0;
+  waitOffActive = false;
   numDigits = 0;
   prevUpdateIdx = 0;
   prevUpdateTime = 0;
@@ -149,7 +151,10 @@ SevSeg::SevSeg()
 // If you use current-limiting resistors on your segment pins instead of the
 // digit pins, then set resOnSegments as true.
 // Set updateWithDelays to true if you want to use the 'pre-2017' update method
-// That method occupies the processor with delay functions.
+// In that case, the processor is occupied with delay functions while refreshing
+// leadingZerosIn indicates whether leading zeros should be displayed
+// disableDecPoint is true when the decimal point segment is not connected, in
+// which case there are only 7 segments.
 void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
                    byte segmentPinsIn[], bool resOnSegmentsIn,
                    bool updateWithDelaysIn, bool leadingZerosIn, bool disableDecPoint) {
@@ -166,28 +171,28 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
   switch (hardwareConfig) {
 
     case 0: // Common cathode
-      digitOn = LOW;
-      segmentOn = HIGH;
+      digitOnVal = LOW;
+      segmentOnVal = HIGH;
       break;
 
     case 1: // Common anode
-      digitOn = HIGH;
-      segmentOn = LOW;
+      digitOnVal = HIGH;
+      segmentOnVal = LOW;
       break;
 
     case 2: // With active-high, low-side switches (most commonly N-type FETs)
-      digitOn = HIGH;
-      segmentOn = HIGH;
+      digitOnVal = HIGH;
+      segmentOnVal = HIGH;
       break;
 
     case 3: // With active low, high side switches (most commonly P-type FETs)
-      digitOn = LOW;
-      segmentOn = LOW;
+      digitOnVal = LOW;
+      segmentOnVal = LOW;
       break;
   }
 
-  digitOff = !digitOn;
-  segmentOff = !segmentOn;
+  digitOffVal = !digitOnVal;
+  segmentOffVal = !segmentOnVal;
 
   // Save the input pin numbers to library variables
   for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
@@ -201,12 +206,12 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
   // Set the pins as outputs, and turn them off
   for (byte digit = 0 ; digit < numDigits ; digit++) {
     pinMode(digitPins[digit], OUTPUT);
-    digitalWrite(digitPins[digit], digitOff);
+    digitalWrite(digitPins[digit], digitOffVal);
   }
 
   for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     pinMode(segmentPins[segmentNum], OUTPUT);
-    digitalWrite(segmentPins[segmentNum], segmentOff);
+    digitalWrite(segmentPins[segmentNum], segmentOffVal);
   }
 
   blank(); // Initialise the display
@@ -236,6 +241,11 @@ void SevSeg::refreshDisplay() {
   if (!updateWithDelays) {
 
     // Exit if it's not time for the next display change
+    if (waitOffActive) {
+      if (micros() - prevUpdateTime < waitOffTime) return;
+      prevUpdateTime = micros();
+    }
+
     if (micros() - prevUpdateTime < ledOnTime) return;
     prevUpdateTime = micros();
 
@@ -243,49 +253,49 @@ void SevSeg::refreshDisplay() {
       /**********************************************/
       // RESISTORS ON DIGITS, UPDATE WITHOUT DELAYS
 
-
-      // Turn all lights off for the previous segment
-      for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
-        digitalWrite(digitPins[digitNum], digitOff);
+      if (waitOffActive) {
+        waitOffActive = false;
       }
-      digitalWrite(segmentPins[prevUpdateIdx], segmentOff);
+      else {
+        // Turn all lights off for the previous segment
+        segmentOff(prevUpdateIdx);
+      
+        if (waitOffTime) {
+          // Wait a delay with all lights off
+          waitOffActive = true;
+          return;
+        }
+      }
 
       prevUpdateIdx++;
       if (prevUpdateIdx >= numSegments) prevUpdateIdx = 0;
 
-      byte segmentNum = prevUpdateIdx;
-
       // Illuminate the required digits for the new segment
-      digitalWrite(segmentPins[segmentNum], segmentOn);
-      for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
-        if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-          digitalWrite(digitPins[digitNum], digitOn);
-        }
-      }
+      segmentOn(prevUpdateIdx);
     }
     else {
       /**********************************************/
       // RESISTORS ON SEGMENTS, UPDATE WITHOUT DELAYS
 
-
-      // Turn all lights off for the previous digit
-      for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
-        digitalWrite(segmentPins[segmentNum], segmentOff);
+      if (waitOffActive) {
+        waitOffActive = false;
       }
-      digitalWrite(digitPins[prevUpdateIdx], digitOff);
+      else {
+        // Turn all lights off for the previous digit
+      digitOff(prevUpdateIdx);
+      
+        if (waitOffTime) {
+          // Wait a delay with all lights off
+          waitOffActive = true;
+          return;
+        }
+      }
 
       prevUpdateIdx++;
       if (prevUpdateIdx >= numDigits) prevUpdateIdx = 0;
 
-      byte digitNum = prevUpdateIdx;
-
       // Illuminate the required segments for the new digit
-      digitalWrite(digitPins[digitNum], digitOn);
-      for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
-        if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-          digitalWrite(segmentPins[segmentNum], segmentOn);
-        }
-      }
+      digitOn(prevUpdateIdx);
     }
   }
 
@@ -296,21 +306,16 @@ void SevSeg::refreshDisplay() {
       for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
 
         // Illuminate the required digits for this segment
-        digitalWrite(segmentPins[segmentNum], segmentOn);
-        for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
-          if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-            digitalWrite(digitPins[digitNum], digitOn);
-          }
-        }
+        segmentOn(segmentNum);
 
-        //Wait with lights on (to increase brightness)
+        // Wait with lights on (to increase brightness)
         delayMicroseconds(ledOnTime);
 
-        //Turn all lights off
-        for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
-          digitalWrite(digitPins[digitNum], digitOff);
-        }
-        digitalWrite(segmentPins[segmentNum], segmentOff);
+        // Turn all lights off
+        segmentOff(segmentNum);
+
+        // Wait with all lights off if required
+        if (waitOffTime) delayMicroseconds(waitOffTime);
       }
     }
     else {
@@ -319,32 +324,83 @@ void SevSeg::refreshDisplay() {
       for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
 
         // Illuminate the required segments for this digit
-        digitalWrite(digitPins[digitNum], digitOn);
-        for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
-          if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-            digitalWrite(segmentPins[segmentNum], segmentOn);
-          }
-        }
+        digitOn(digitNum);
 
-        //Wait with lights on (to increase brightness)
+        // Wait with lights on (to increase brightness)
         delayMicroseconds(ledOnTime);
 
-        //Turn all lights off
-        for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
-          digitalWrite(segmentPins[segmentNum], segmentOff);
-        }
-        digitalWrite(digitPins[digitNum], digitOff);
+        // Turn all lights off
+        digitOff(digitNum);
+
+        // Wait with all lights off if required
+        if (waitOffTime) delayMicroseconds(waitOffTime);
       }
     }
   }
 }
 
+// segmentOn
+/******************************************************************************/
+// Turns a segment on, as well as all corresponding digit pins
+// (according to digitCodes[])
+void SevSeg::segmentOn(byte segmentNum) {
+  digitalWrite(segmentPins[segmentNum], segmentOnVal);
+  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+    if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
+      digitalWrite(digitPins[digitNum], digitOnVal);
+    }
+  }
+}
+
+// segmentOff
+/******************************************************************************/
+// Turns a segment off, as well as all digit pins
+void SevSeg::segmentOff(byte segmentNum) {
+  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+    digitalWrite(digitPins[digitNum], digitOffVal);
+  }
+  digitalWrite(segmentPins[segmentNum], segmentOffVal);
+}
+
+// digitOn
+/******************************************************************************/
+// Turns a digit on, as well as all corresponding segment pins
+// (according to digitCodes[])
+void SevSeg::digitOn(byte digitNum) {
+  digitalWrite(digitPins[digitNum], digitOnVal);
+  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+    if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
+      digitalWrite(segmentPins[segmentNum], segmentOnVal);
+    }
+  }
+}
+
+// digitOff
+/******************************************************************************/
+// Turns a digit off, as well as all segment pins
+void SevSeg::digitOff(byte digitNum) {
+  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+    digitalWrite(segmentPins[segmentNum], segmentOffVal);
+  }
+  digitalWrite(digitPins[digitNum], digitOffVal);
+}
+
 // setBrightness
 /******************************************************************************/
-
+// Sets ledOnTime according to the brightness given. Standard brightness range
+// is 0 to 100. Flickering is more likely at brightness > 100, and < -100.
+// A positive brightness introduces a delay while the LEDs are on, and a 
+// negative brightness introduces a delay while the LEDs are off.
 void SevSeg::setBrightness(int brightness) {
-  brightness = constrain(brightness, 0, 100);
-  ledOnTime = map(brightness, 0, 100, 1, 2000);
+  brightness = constrain(brightness, -200, 200);
+  if (brightness > 0) {
+    ledOnTime = map(brightness, 0, 100, 1, 2000);
+    waitOffTime = 0;
+  }
+  else {
+    ledOnTime = 0;
+    waitOffTime = map(brightness, 0, -100, 1, 2000);
+  }
 }
 
 
@@ -353,7 +409,6 @@ void SevSeg::setBrightness(int brightness) {
 // This function only receives the input and passes it to 'setNewNum'.
 // It is overloaded for all number data types, so that floats can be handled
 // correctly.
-
 void SevSeg::setNumber(long numToShow, char decPlaces, bool hex) //long
 {
   setNewNum(numToShow, decPlaces, hex);
@@ -402,7 +457,6 @@ void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) //float
 // setNewNum
 /******************************************************************************/
 // Changes the number that will be displayed.
-
 void SevSeg::setNewNum(long numToShow, char decPlaces, bool hex) {
   byte digits[numDigits];
   findDigits(numToShow, decPlaces, hex, digits);
