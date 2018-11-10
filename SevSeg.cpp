@@ -152,13 +152,14 @@ SevSeg::SevSeg()
 // That method occupies the processor with delay functions.
 void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
                    byte segmentPinsIn[], bool resOnSegmentsIn,
-                   bool updateWithDelaysIn, bool leadingZerosIn) {
+                   bool updateWithDelaysIn, bool leadingZerosIn, bool disableDecPoint) {
 
   resOnSegments = resOnSegmentsIn;
   updateWithDelays = updateWithDelaysIn;
   leadingZeros = leadingZerosIn;
 
   numDigits = numDigitsIn;
+  numSegments = disableDecPoint ? 7 : 8; // Ternary 'if' statement
   //Limit the max number of digits to prevent overflowing
   if (numDigits > MAXNUMDIGITS) numDigits = MAXNUMDIGITS;
 
@@ -189,7 +190,7 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
   segmentOff = !segmentOn;
 
   // Save the input pin numbers to library variables
-  for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     segmentPins[segmentNum] = segmentPinsIn[segmentNum];
   }
 
@@ -203,7 +204,7 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
     digitalWrite(digitPins[digit], digitOff);
   }
 
-  for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     pinMode(segmentPins[segmentNum], OUTPUT);
     digitalWrite(segmentPins[segmentNum], segmentOff);
   }
@@ -250,7 +251,7 @@ void SevSeg::refreshDisplay() {
       digitalWrite(segmentPins[prevUpdateIdx], segmentOff);
 
       prevUpdateIdx++;
-      if (prevUpdateIdx >= 8) prevUpdateIdx = 0;
+      if (prevUpdateIdx >= numSegments) prevUpdateIdx = 0;
 
       byte segmentNum = prevUpdateIdx;
 
@@ -268,7 +269,7 @@ void SevSeg::refreshDisplay() {
 
 
       // Turn all lights off for the previous digit
-      for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+      for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
         digitalWrite(segmentPins[segmentNum], segmentOff);
       }
       digitalWrite(digitPins[prevUpdateIdx], digitOff);
@@ -280,7 +281,7 @@ void SevSeg::refreshDisplay() {
 
       // Illuminate the required segments for the new digit
       digitalWrite(digitPins[digitNum], digitOn);
-      for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+      for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
         if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
           digitalWrite(segmentPins[segmentNum], segmentOn);
         }
@@ -292,7 +293,7 @@ void SevSeg::refreshDisplay() {
     if (!resOnSegments) {
       /**********************************************/
       // RESISTORS ON DIGITS, UPDATE WITH DELAYS
-      for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+      for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
 
         // Illuminate the required digits for this segment
         digitalWrite(segmentPins[segmentNum], segmentOn);
@@ -319,7 +320,7 @@ void SevSeg::refreshDisplay() {
 
         // Illuminate the required segments for this digit
         digitalWrite(digitPins[digitNum], digitOn);
-        for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+        for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
           if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
             digitalWrite(segmentPins[segmentNum], segmentOn);
           }
@@ -329,7 +330,7 @@ void SevSeg::refreshDisplay() {
         delayMicroseconds(ledOnTime);
 
         //Turn all lights off
-        for (byte segmentNum = 0 ; segmentNum < 8 ; segmentNum++) {
+        for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
           digitalWrite(segmentPins[segmentNum], segmentOff);
         }
         digitalWrite(digitPins[digitNum], digitOff);
@@ -444,7 +445,7 @@ void SevSeg::setChars(char str[])
   }
 
   byte strIdx = 0; // Current position within str[]
-    for (byte digitNum = 0; digitNum < numDigits; digitNum++) {
+  for (byte digitNum = 0; digitNum < numDigits; digitNum++) {
     char ch = str[strIdx];
     if (ch == '\0') break; // NULL string terminator
     if (ch >= '0' && ch <= '9') { // Numerical
@@ -546,10 +547,10 @@ void SevSeg::setDigitCodes(byte digits[], char decPlaces) {
   // Set the digitCode for each digit in the display
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitCodes[digitNum] = digitCodeMap[digits[digitNum]];
-    // Set the decimal place segment
+    // Set the decimal point segment
     if (decPlaces >= 0) {
       if (digitNum == numDigits - 1 - decPlaces) {
-        digitCodes[digitNum] |= B10000000;
+        digitCodes[digitNum] |= digitCodeMap[PERIOD_IDX];
       }
     }
   }

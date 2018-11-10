@@ -51,7 +51,8 @@ public:
   void refreshDisplay();
   void begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
           byte segmentPinsIn[], bool resOnSegmentsIn=0, 
-          bool updateWithDelaysIn=0, bool leadingZerosIn=0);
+          bool updateWithDelaysIn=0, bool leadingZerosIn=0,
+		  bool disableDecPoint=0);
   void setBrightness(int brightnessIn); // A number from 0..100
 
   void setNumber(long numToShow, char decPlaces=-1, bool hex=0);
@@ -76,6 +77,7 @@ private:
   byte digitPins[MAXNUMDIGITS];
   byte segmentPins[8];
   byte numDigits;
+  byte numSegments;		   
   byte prevUpdateIdx;
   byte digitCodes[MAXNUMDIGITS];
   int ledOnTime;
