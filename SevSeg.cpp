@@ -131,8 +131,7 @@ const byte * const alphaCodes = digitCodeMap + 10;
 
 // SevSeg Constructor
 /******************************************************************************/
-SevSeg::SevSeg()
-{
+SevSeg::SevSeg() {
   // Initial value
   ledOnTime = 2000; // Corresponds to a brightness of 100
   waitOffTime = 0;
@@ -259,7 +258,7 @@ void SevSeg::refreshDisplay() {
       else {
         // Turn all lights off for the previous segment
         segmentOff(prevUpdateIdx);
-      
+
         if (waitOffTime) {
           // Wait a delay with all lights off
           waitOffActive = true;
@@ -282,8 +281,8 @@ void SevSeg::refreshDisplay() {
       }
       else {
         // Turn all lights off for the previous digit
-      digitOff(prevUpdateIdx);
-      
+        digitOff(prevUpdateIdx);
+
         if (waitOffTime) {
           // Wait a delay with all lights off
           waitOffActive = true;
@@ -389,7 +388,7 @@ void SevSeg::digitOff(byte digitNum) {
 /******************************************************************************/
 // Sets ledOnTime according to the brightness given. Standard brightness range
 // is 0 to 100. Flickering is more likely at brightness > 100, and < -100.
-// A positive brightness introduces a delay while the LEDs are on, and a 
+// A positive brightness introduces a delay while the LEDs are on, and a
 // negative brightness introduces a delay while the LEDs are off.
 void SevSeg::setBrightness(int brightness) {
   brightness = constrain(brightness, -200, 200);
@@ -409,38 +408,31 @@ void SevSeg::setBrightness(int brightness) {
 // This function only receives the input and passes it to 'setNewNum'.
 // It is overloaded for all number data types, so that floats can be handled
 // correctly.
-void SevSeg::setNumber(long numToShow, char decPlaces, bool hex) //long
-{
+void SevSeg::setNumber(long numToShow, char decPlaces, bool hex) { //long
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(unsigned long numToShow, char decPlaces, bool hex) //unsigned long
-{
+void SevSeg::setNumber(unsigned long numToShow, char decPlaces, bool hex) { //unsigned long
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(int numToShow, char decPlaces, bool hex) //int
-{
+void SevSeg::setNumber(int numToShow, char decPlaces, bool hex) { //int
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(unsigned int numToShow, char decPlaces, bool hex) //unsigned int
-{
+void SevSeg::setNumber(unsigned int numToShow, char decPlaces, bool hex) { //unsigned int
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(char numToShow, char decPlaces, bool hex) //char
-{
+void SevSeg::setNumber(char numToShow, char decPlaces, bool hex) { //char
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(byte numToShow, char decPlaces, bool hex) //byte
-{
+void SevSeg::setNumber(byte numToShow, char decPlaces, bool hex) { //byte
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) //float
-{
+void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) { //float
   char decPlacesPos = constrain(decPlaces, 0, MAXNUMDIGITS);
   if (hex) {
     numToShow = numToShow * powersOf16[decPlacesPos];
@@ -480,9 +472,7 @@ void SevSeg::setNewNum(long numToShow, char decPlaces, bool hex) {
 //                       E    C        4    2
 //                       E    C        4    2        (Segment H is often called
 //                        DDDD  H       3333  7      DP, for Decimal Point)
-
-void SevSeg::setSegments(byte segs[])
-{
+void SevSeg::setSegments(byte segs[]) {
   for (byte digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = segs[digit];
   }
@@ -492,8 +482,7 @@ void SevSeg::setSegments(byte segs[])
 /******************************************************************************/
 // Displays the string on the display, as best as possible.
 // Only alphanumeric characters plus '-' and ' ' are supported
-void SevSeg::setChars(char str[])
-{
+void SevSeg::setChars(char str[]) {
   for (byte digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = 0;
   }
@@ -537,7 +526,8 @@ void SevSeg::blank(void) {
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitCodes[digitNum] = digitCodeMap[BLANK_IDX];
   }
-  refreshDisplay();
+  segmentOff(0);
+  digitOff(0);
 }
 
 // findDigits
