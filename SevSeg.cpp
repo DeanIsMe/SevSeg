@@ -1,54 +1,26 @@
 /* SevSeg Library
-
-  Copyright 2017 Dean Reading
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-
-
-  This library allows an Arduino to easily display numbers in decimal format on
-  a 7-segment display without a separate 7-segment display controller.
-
-  Direct any questions or suggestions to deanreading@hotmail.com
-  See the included readme for instructions.
-  https://github.com/DeanIsMe/SevSeg
-
-  CHANGELOG
-  Version 3.3.0 - February 2017
-  Added the ability to keep leading zeros. This is now an extra
-  parameter in the begin() function.
-
-  Version 3.2.0 - December 2016
-  Updated to Arduino 1.5 Library Specification
-  New display function - no longer consumes processor time with delay()
-  Now supports hexadecimal number printing
-  The decimal point can now be omitted with a negative decPlaces
-  decPlaces is now optional in setNumber
-  Alphanumeric strings can be displayed (inaccurately) with setChars()
-  Removed #define RESISTORS_ON_SEGMENTS. Now a begin() input
-  Can now blank() the display
-
-  Version 3.1 - September 2016
-  Bug Fixes. No longer uses dynamic memory allocation.
-  Version 3.0 - November 2014
-  Library re-design. A display with any number of digits can be used.
-  Floats are supported. Support for using transistors for switching.
-  Much more user friendly. No backwards compatibility.
-  Uploaded to GitHub to simplify any further development.
-  Version 2.3; Allows for brightness control.
-  Version 2.2; Allows 1, 2 or 3 digit displays to be used.
-  Version 2.1; Includes a bug fix.
-  Version 2.0; Now works for any digital pin arrangement.
-  Supports both common anode and common cathode displays.
-*/
+ *
+ * Copyright 2017 Dean Reading
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
+ * This library allows an Arduino to easily display numbers and letters on a
+ * 7-segment display without a separate 7-segment display controller.
+ *
+ * Direct any questions or suggestions to deanreading@hotmail.com
+ * See the included readme for instructions.
+ * https://github.com/DeanIsMe/SevSeg
+ */
 
 #include "SevSeg.h"
 
