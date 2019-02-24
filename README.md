@@ -140,7 +140,7 @@ sevseg.blank();
 ### Setting the brightness
 
 ```c++
-sevseg.setBrightness(240);
+sevseg.setBrightness(90);
 ```
 
 The brightness can be adjusted using a value between -200 and 200. 0 to 100 is the standard range.

@@ -210,15 +210,16 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
 void SevSeg::refreshDisplay() {
 
   if (!updateWithDelays) {
+    unsigned long us = micros();
 
     // Exit if it's not time for the next display change
     if (waitOffActive) {
-      if (micros() - prevUpdateTime < waitOffTime) return;
-      prevUpdateTime = micros();
+      if (us - prevUpdateTime < waitOffTime) return;
     }
-
-    if (micros() - prevUpdateTime < ledOnTime) return;
-    prevUpdateTime = micros();
+    else {
+      if (us - prevUpdateTime < ledOnTime) return;
+    }
+    prevUpdateTime = us;
 
     if (!resOnSegments) {
       /**********************************************/
@@ -367,6 +368,7 @@ void SevSeg::setBrightness(int brightness) {
   if (brightness > 0) {
     ledOnTime = map(brightness, 0, 100, 1, 2000);
     waitOffTime = 0;
+    waitOffActive = false;
   }
   else {
     ledOnTime = 0;
