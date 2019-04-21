@@ -1,5 +1,12 @@
 # Change Log
 
+## [3.4.0](https://github.com/DeanIsMe/SevSeg/releases/tag/v3.4.0) (2019-04-21)
+
+### Added
+*   support for '*', which is displayed as degree symbol
+*   expanded setBrightness capabilities
+*   support for displays with no decimal point
+*   improved blank() functionality
 
 ## [3.3.0](https://github.com/DeanIsMe/SevSeg/releases/tag/v3.3.0) (2017-02-22)
 
