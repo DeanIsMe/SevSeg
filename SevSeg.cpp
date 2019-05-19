@@ -28,6 +28,7 @@
 #define DASH_IDX 37
 #define PERIOD_IDX 38
 #define ASTERISK_IDX 39
+#define UNDERSCORE_IDX 40
 
 static const long powersOf10[] = {
   1, // 10^0
@@ -97,6 +98,7 @@ static const byte digitCodeMap[] = {
   B01000000, // 45  '-'  DASH
   B10000000, // 46  '.'  PERIOD
   B01100011, // 42 '*'  DEGREE ..
+  B00001000, // 42 '_'  UNDERSCORE
 };
 
 // Constant pointers to constant data
@@ -484,6 +486,9 @@ void SevSeg::setChars(char str[]) {
     }
     else if (ch == '*') {
       digitCodes[digitNum] = digitCodeMap[ASTERISK_IDX];
+    }
+    else if (ch == '_') {
+      digitCodes[digitNum] = digitCodeMap[UNDERSCORE_IDX];
     }
     else {
       // Every unknown character is shown as a dash
