@@ -98,7 +98,7 @@ static const byte digitCodeMap[] = {
   B01000000, // 45  '-'  DASH
   B10000000, // 46  '.'  PERIOD
   B01100011, // 42 '*'  DEGREE ..
-  B00001000, // 42 '_'  UNDERSCORE
+  B00001000, // 95 '_'  UNDERSCORE
 };
 
 // Constant pointers to constant data
