@@ -179,12 +179,12 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
   // Set the pins as outputs, and turn them off
   for (byte digit = 0 ; digit < numDigits ; digit++) {
     pinMode(digitPins[digit], OUTPUT);
-    digitalWrite(digitPins[digit], digitOffVal);
+    digitalWrite(digitPins[digit], digitOffVal?HIGH:LOW);
   }
 
   for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     pinMode(segmentPins[segmentNum], OUTPUT);
-    digitalWrite(segmentPins[segmentNum], segmentOffVal);
+    digitalWrite(segmentPins[segmentNum], segmentOffVal?HIGH:LOW);
   }
 
   blank(); // Initialise the display
@@ -318,10 +318,10 @@ void SevSeg::refreshDisplay() {
 // Turns a segment on, as well as all corresponding digit pins
 // (according to digitCodes[])
 void SevSeg::segmentOn(byte segmentNum) {
-  digitalWrite(segmentPins[segmentNum], segmentOnVal);
+  digitalWrite(segmentPins[segmentNum], segmentOnVal?HIGH:LOW);
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-      digitalWrite(digitPins[digitNum], digitOnVal);
+      digitalWrite(digitPins[digitNum], digitOnVal?HIGH:LOW);
     }
   }
 }
@@ -331,9 +331,9 @@ void SevSeg::segmentOn(byte segmentNum) {
 // Turns a segment off, as well as all digit pins
 void SevSeg::segmentOff(byte segmentNum) {
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
-    digitalWrite(digitPins[digitNum], digitOffVal);
+    digitalWrite(digitPins[digitNum], digitOffVal?HIGH:LOW);
   }
-  digitalWrite(segmentPins[segmentNum], segmentOffVal);
+  digitalWrite(segmentPins[segmentNum], segmentOffVal?HIGH:LOW);
 }
 
 // digitOn
@@ -341,10 +341,10 @@ void SevSeg::segmentOff(byte segmentNum) {
 // Turns a digit on, as well as all corresponding segment pins
 // (according to digitCodes[])
 void SevSeg::digitOn(byte digitNum) {
-  digitalWrite(digitPins[digitNum], digitOnVal);
+  digitalWrite(digitPins[digitNum], digitOnVal?HIGH:LOW);
   for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-      digitalWrite(segmentPins[segmentNum], segmentOnVal);
+      digitalWrite(segmentPins[segmentNum], segmentOnVal?HIGH:LOW);
     }
   }
 }
@@ -354,9 +354,9 @@ void SevSeg::digitOn(byte digitNum) {
 // Turns a digit off, as well as all segment pins
 void SevSeg::digitOff(byte digitNum) {
   for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
-    digitalWrite(segmentPins[segmentNum], segmentOffVal);
+    digitalWrite(segmentPins[segmentNum], segmentOffVal?HIGH:LOW);
   }
-  digitalWrite(digitPins[digitNum], digitOffVal);
+  digitalWrite(digitPins[digitNum], digitOffVal?HIGH:LOW);
 }
 
 // setBrightness
