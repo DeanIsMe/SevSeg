@@ -226,10 +226,10 @@ void SevSeg::refreshDisplay() {
 
     // Exit if it's not time for the next display change
     if (waitOffActive) {
-      if (us - prevUpdateTime < waitOffTime) return;
+      if (signed(us - prevUpdateTime) < waitOffTime) return;
     }
     else {
-      if (us - prevUpdateTime < ledOnTime) return;
+      if (signed(us - prevUpdateTime) < ledOnTime) return;
     }
     prevUpdateTime = us;
 
@@ -419,7 +419,7 @@ void SevSeg::setNumber(byte numToShow, char decPlaces, bool hex) { //byte
 }
 
 void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) { //float
-  char decPlacesPos = constrain(decPlaces, 0, MAXNUMDIGITS);
+  byte decPlacesPos = constrain(decPlaces, 0, MAXNUMDIGITS);
   if (hex) {
     numToShow = numToShow * powersOf16[decPlacesPos];
   }
