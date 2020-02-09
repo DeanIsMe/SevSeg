@@ -164,8 +164,18 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
       break;
   }
 
-  digitOffVal = !digitOnVal;
-  segmentOffVal = !segmentOnVal;
+  // define the Off-Values depending on the On-Values
+  if (digitOnVal == HIGH){
+    digitOffVal = LOW;
+  } else {
+    digitOffVal = HIGH;
+  }
+  // define the Off-Values depending on the On-Values
+  if (segmentOnVal == HIGH){
+    segmentOffVal = LOW;
+  } else {
+    segmentOffVal = HIGH;
+  }
 
   // Save the input pin numbers to library variables
   for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {

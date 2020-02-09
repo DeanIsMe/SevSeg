@@ -77,7 +77,7 @@ private:
   void digitOn(byte digitNum);
   void digitOff(byte digitNum);
 
-  bool digitOnVal,digitOffVal,segmentOnVal,segmentOffVal;
+  byte digitOnVal,digitOffVal,segmentOnVal,segmentOffVal;
   bool resOnSegments, updateWithDelays, leadingZeros;
   byte digitPins[MAXNUMDIGITS];
   byte segmentPins[8];
