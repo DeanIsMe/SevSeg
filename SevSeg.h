@@ -68,14 +68,14 @@ public:
   void setChars(char str[]);
   void blank(void);
 
-private:
+protected:
   void setNewNum(long numToShow, char decPlaces, bool hex=0);
   void findDigits(long numToShow, char decPlaces, bool hex, byte digits[]);
   void setDigitCodes(byte nums[], char decPlaces);
-  void segmentOn(byte segmentNum);
-  void segmentOff(byte segmentNum);
-  void digitOn(byte digitNum);
-  void digitOff(byte digitNum);
+  virtual void segmentOn(byte segmentNum);
+  virtual void segmentOff(byte segmentNum);
+  virtual void digitOn(byte digitNum);
+  virtual void digitOff(byte digitNum);
 
   byte digitOnVal,digitOffVal,segmentOnVal,segmentOffVal;
   bool resOnSegments, updateWithDelays, leadingZeros;
