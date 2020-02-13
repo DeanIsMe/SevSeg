@@ -1,4 +1,4 @@
-/* SevSeg Counter Example
+/* SevSegShift Counter Example
  
  Copyright 2017 Dean Reading
  
@@ -18,13 +18,18 @@
  digit display. It displays a counter that counts up, showing deci-seconds.
  */
 
-#include "SevSeg.h"
-SevSeg sevseg; //Instantiate a seven segment controller object
+#include "SevSegShift.h"
+
+#define SHIFT_PIN_DS   10
+#define SHIFT_PIN_STCP 11
+#define SHIFT_PIN_SHCP 12
+
+SevSegShift sevseg(SHIFT_PIN_DS, SHIFT_PIN_SHCP, SHIFT_PIN_STCP); //Instantiate a seven segment controller object
 
 void setup() {
   byte numDigits = 4;
-  byte digitPins[] = {2, 3, 4, 5};
-  byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
+  byte digitPins[] = {8+2, 8+5, 8+6, 2}; // of ShiftRegister(s) | 8+x (2nd Register)
+  byte segmentPins[] = {8+3, 8+7, 4, 6, 7, 8+4, 3,  5}; // of Shiftregister(s) | 8+x (2nd Register)
   bool resistorsOnSegments = false; // 'false' means resistors are on digit pins
   byte hardwareConfig = COMMON_ANODE; // See README.md for options
   bool updateWithDelays = false; // Default 'false' is Recommended
