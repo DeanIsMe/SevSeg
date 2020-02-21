@@ -5,7 +5,8 @@ This library adds the functionality of a Shift Register to the original SevSeg l
 In addition to the Common Shift Registers this library supports everything the original library supports.
 It supports common cathode and common anode displays, and the use of switching transistors. Numbers can be displayed in decimal or hexadecimal representation, with decimal places. Characters can be displayed (as accurately as possible). It also supports multiple displays, of varying dimensions. 
 
-[Download it from GitHub][1].
+[Download it from GitHub][5].
+
 [original library here][1].
 
 
@@ -15,6 +16,9 @@ It supports common cathode and common anode displays, and the use of switching t
 
 Your display should have:
 *   **Digit Pins** \- One for each digit. These are the 'common pins'. They will be cathodes (negative pins) for common cathode displays, or anodes (positive pins) for common anode displays.
+*   **8 Segment Pins** \- One for each of the seven segments plus the decimal point.
+
+Shift Register
 *   **8 Segment Pins** \- One for each of the seven segments plus the decimal point.
 
 
@@ -59,6 +63,7 @@ Top Row:    1 A F  2 3 B
 Bottom Row: E D DP C G 4
 ```
 
+Example diagram for Shift Register usage see [The SevSegShift_Counter Example][6].
 
 ## Software
 
@@ -69,13 +74,18 @@ The Library Manager can be used from arduino version 1.6.2.
 ### Setting up
 
 ```c++
-#include "SevSeg.h"
-SevSeg sevseg; //Instantiate a seven segment object
+#include "SevSegShift.h"
+
+#define SHIFT_PIN_DS   10
+#define SHIFT_PIN_STCP 11
+#define SHIFT_PIN_SHCP 12
+
+SevSegShift sevseg(SHIFT_PIN_DS, SHIFT_PIN_SHCP, SHIFT_PIN_STCP); //Instantiate a seven segment controller object
 
 void setup() {
   byte numDigits = 4;
-  byte digitPins[] = {2, 3, 4, 5};
-  byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
+  byte digitPins[] = {8+2, 8+5, 8+6, 2}; // of ShiftRegister(s) | 8+x (2nd Register)
+  byte segmentPins[] = {8+3, 8+7, 4, 6, 7, 8+4, 3,  5}; // of Shiftregister(s) | 8+x (2nd Register)
   bool resistorsOnSegments = false; // 'false' means resistors are on digit pins
   byte hardwareConfig = COMMON_ANODE; // See README.md for options
   bool updateWithDelays = false; // Default 'false' is Recommended
@@ -88,8 +98,8 @@ void setup() {
 }
 ```
 
-`digitPins` is an array that stores the arduino pin numbers that the digits are connected to. Order them from left to right.
-`segmentPins` is an array that stores the arduino pin numbers that the segments are connected to. Order them from segment a to g, then the decimal place (if it's connected).
+`digitPins` is an array that stores the ShiftRegister pin numbers that the digits are connected to. Order them from left to right.
+`segmentPins` is an array that stores the Shift Register pin numbers that the segments are connected to. Order them from segment a to g, then the decimal place (if it's connected).
 If you wish to use more than 8 digits, increase MAXNUMDIGITS in SevSeg.h.
 
 
@@ -150,7 +160,7 @@ Results will vary for each implementation. The brightness seen depends on the di
 
 ## License
 
-Copyright 2019 Dean Reading
+Copyright 2019 Dean Reading, Copyright 2020 Jens Breidenstein
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -169,3 +179,4 @@ limitations under the License.
 [3]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
 [4]: http://arduino.cc/en/Guide/Libraries
 [5]: https://github.com/bryidystone/SevSeg
+[6]: https://github.com/bryidystone/SevSeg/examples/SevSegShift_Counter/SevSegShift.png
