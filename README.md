@@ -1,12 +1,12 @@
-# SevSeg
+# SevSegShift
 
-This library turns your Arduino into a seven segment display controller. Use it to easily display numbers on your seven segment display without any additional controllers.
+This library adds the functionality of a Shift Register to the original SevSeg library by Dean Reading. Most functionality is the same as the orginial Library. It only inherits the class and adds the Shift Register functionality where required.
 
-It supports common cathode and common anode displays, and the use of switching transistors. Numbers can be displayed in decimal or hexadecimal representation, with decimal places. Characters can be displayed (as accurately as possible). It also supports multiple displays, of varying dimensions. Shift registers and similar devices are NOT supported.
+In addition to the Common Shift Registers this library supports everything the original library supports.
+It supports common cathode and common anode displays, and the use of switching transistors. Numbers can be displayed in decimal or hexadecimal representation, with decimal places. Characters can be displayed (as accurately as possible). It also supports multiple displays, of varying dimensions. 
 
 [Download it from GitHub][1].
-
-Direct any questions or suggestions to deanreading@hotmail.com. If I have the time, I'm happy to help you get things working.
+[original library here][1].
 
 
 ## Hardware
@@ -168,3 +168,4 @@ limitations under the License.
 [2]: https://en.wikipedia.org/wiki/File:7_segment_display_labeled.svg
 [3]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
 [4]: http://arduino.cc/en/Guide/Libraries
+[5]: https://github.com/bryidystone/SevSeg
