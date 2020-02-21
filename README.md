@@ -19,7 +19,7 @@ Your display should have:
 *   **8 Segment Pins** \- One for each of the seven segments plus the decimal point.
 
 Shift Register
-*   **8 Segment Pins** \- One for each of the seven segments plus the decimal point.
+*   **2 Shift Registers** \- to be used with the 12 necessary connections pins of the 7 Segment display
 
 
 ### Arduino connections
@@ -178,5 +178,5 @@ limitations under the License.
 [2]: https://en.wikipedia.org/wiki/File:7_segment_display_labeled.svg
 [3]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
 [4]: http://arduino.cc/en/Guide/Libraries
-[5]: https://github.com/bryidystone/SevSeg
-[6]: https://github.com/bryidystone/SevSeg/examples/SevSegShift_Counter/SevSegShift.png
+[5]: https://github.com/bridystone/SevSeg
+[6]: https://github.com/bridystone/SevSeg/tree/ShiftRegister/examples/SevSegShift_Counter/SevSegShift.png
