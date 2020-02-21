@@ -179,4 +179,4 @@ limitations under the License.
 [3]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
 [4]: http://arduino.cc/en/Guide/Libraries
 [5]: https://github.com/bridystone/SevSeg
-[6]: https://github.com/bridystone/SevSeg/tree/ShiftRegister/examples/SevSegShift_Counter/SevSegShift.png
+[6]: https://github.com/bridystone/SevSeg/blob/ShiftRegister/examples/SevSegShift_Counter/SevSegShift.png
