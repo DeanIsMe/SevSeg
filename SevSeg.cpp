@@ -438,7 +438,7 @@ void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) { //float
 /******************************************************************************/
 // Changes the number that will be displayed.
 void SevSeg::setNewNum(long numToShow, char decPlaces, bool hex) {
-  byte digits[numDigits];
+  byte digits[MAXNUMDIGITS];
   findDigits(numToShow, decPlaces, hex, digits);
   setDigitCodes(digits, decPlaces);
 }
