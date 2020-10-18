@@ -470,7 +470,7 @@ void SevSeg::setSegments(byte segs[]) {
 /******************************************************************************/
 // Displays the string on the display, as best as possible.
 // Only alphanumeric characters plus '-' and ' ' are supported
-void SevSeg::setChars(const char str[]) {
+void SevSeg::setChars(char str[]) {
   for (byte digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = 0;
   }
