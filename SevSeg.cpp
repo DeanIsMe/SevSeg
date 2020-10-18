@@ -130,8 +130,8 @@ SevSeg::SevSeg() {
 // leadingZerosIn indicates whether leading zeros should be displayed
 // disableDecPoint is true when the decimal point segment is not connected, in
 // which case there are only 7 segments.
-void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
-                   byte segmentPinsIn[], bool resOnSegmentsIn,
+void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, const byte digitPinsIn[],
+                   const byte segmentPinsIn[], bool resOnSegmentsIn,
                    bool updateWithDelaysIn, bool leadingZerosIn, bool disableDecPoint) {
 
   resOnSegments = resOnSegmentsIn;
@@ -460,7 +460,7 @@ void SevSeg::setNewNum(long numToShow, char decPlaces, bool hex) {
 //                       E    C        4    2
 //                       E    C        4    2        (Segment H is often called
 //                        DDDD  H       3333  7      DP, for Decimal Point)
-void SevSeg::setSegments(byte segs[]) {
+void SevSeg::setSegments(const byte segs[]) {
   for (byte digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = segs[digit];
   }
@@ -528,7 +528,7 @@ void SevSeg::blank(void) {
 /******************************************************************************/
 // Decides what each digit will display.
 // Enforces the upper and lower limits on the number to be displayed.
-
+// digits[] is an output
 void SevSeg::findDigits(long numToShow, char decPlaces, bool hex, byte digits[]) {
   const long * powersOfBase = hex ? powersOf16 : powersOf10;
   const long maxNum = powersOfBase[numDigits] - 1;
@@ -580,7 +580,7 @@ void SevSeg::findDigits(long numToShow, char decPlaces, bool hex, byte digits[])
 /******************************************************************************/
 // Sets the 'digitCodes' that are required to display the input numbers
 
-void SevSeg::setDigitCodes(byte digits[], char decPlaces) {
+void SevSeg::setDigitCodes(const byte digits[], char decPlaces) {
 
   // Set the digitCode for each digit in the display
   for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {

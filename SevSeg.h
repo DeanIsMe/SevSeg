@@ -50,8 +50,8 @@ public:
   SevSeg();
 
   void refreshDisplay();
-  void begin(byte hardwareConfig, byte numDigitsIn, byte digitPinsIn[],
-          byte segmentPinsIn[], bool resOnSegmentsIn=0, 
+  void begin(byte hardwareConfig, byte numDigitsIn, const byte digitPinsIn[],
+          const byte segmentPinsIn[], bool resOnSegmentsIn=0, 
           bool updateWithDelaysIn=0, bool leadingZerosIn=0,
 		  bool disableDecPoint=0);
   void setBrightness(int brightnessIn); // A number from 0..100
@@ -64,14 +64,14 @@ public:
   void setNumber(byte numToShow, char decPlaces=-1, bool hex=0);
   void setNumber(float numToShow, char decPlaces=-1, bool hex=0);
 
-  void setSegments(byte segs[]);
-  void setChars(char str[]);
+  void setSegments(const byte segs[]);
+  void setChars(const char str[]);
   void blank(void);
 
 private:
   void setNewNum(long numToShow, char decPlaces, bool hex=0);
   void findDigits(long numToShow, char decPlaces, bool hex, byte digits[]);
-  void setDigitCodes(byte nums[], char decPlaces);
+  void setDigitCodes(const byte nums[], char decPlaces);
   void segmentOn(byte segmentNum);
   void segmentOff(byte segmentNum);
   void digitOn(byte digitNum);
