@@ -62,6 +62,8 @@ Top Row:    1 A F  2 3 B
 Bottom Row: E D DP C G 4
 ```
 
+### Sample simulation
+The Wokwi team has created a sample simulation for the library. Access it [here][6].
 
 ## Software
 
@@ -172,3 +174,4 @@ limitations under the License.
 [3]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
 [4]: http://arduino.cc/en/Guide/Libraries
 [5]: https://github.com/bridystone/SevSegShift
+[6]: https://wokwi.com/arduino/libraries/SevSeg/SevSeg_Counter
