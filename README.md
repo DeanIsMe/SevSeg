@@ -62,8 +62,12 @@ Top Row:    1 A F  2 3 B
 Bottom Row: E D DP C G 4
 ```
 
-### Sample simulation
-The Wokwi team has created a sample simulation for the library. Access it [here][6].
+### Sample simulations
+The Wokwi team has created sample simulations of the examples in this library:
+[Wokwi SevSeg_Counter Example][6].  
+[Wokwi stringWithPeriod Example][7].  
+[Wokwi testWholeDisplay Example][7].  
+ 
 
 ## Software
 
@@ -175,3 +179,5 @@ limitations under the License.
 [4]: http://arduino.cc/en/Guide/Libraries
 [5]: https://github.com/bridystone/SevSegShift
 [6]: https://wokwi.com/arduino/libraries/SevSeg/SevSeg_Counter
+[7]: https://wokwi.com/arduino/libraries/SevSeg/stringWithPeriod
+[8]: https://wokwi.com/arduino/libraries/SevSeg/testWholeDisplay
