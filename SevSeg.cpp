@@ -466,6 +466,20 @@ void SevSeg::setSegments(const byte segs[]) {
   }
 }
 
+// getSegments
+/******************************************************************************/
+// Gets the 'digitCodes' of currently displayed segments.
+// Using this function, one can get the current set of segments (placed 
+// elsewhere) and manipulate them to obtain effects, for example blink of
+// only some digits.
+// See setSegments() for bit-segment mapping
+//
+void SevSeg::getSegments(byte segs[]) {
+  for (byte digit = 0; digit < numDigits; digit++) {
+    segs[digit] = digitCodes[digit];
+  }
+}
+
 // setChars
 /******************************************************************************/
 // Displays the string on the display, as best as possible.

@@ -65,6 +65,7 @@ public:
   void setNumber(float numToShow, char decPlaces=-1, bool hex=0);
 
   void setSegments(const byte segs[]);
+  void getSegments(byte segs[]);
   void setChars(const char str[]);
   void blank(void);
 
