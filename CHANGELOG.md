@@ -1,5 +1,12 @@
 # Change Log
 
+## [3.5.0](https://github.com/DeanIsMe/SevSeg/releases/tag/v3.5.0) (2020-12-28)
+*   better compatibility with different boards & platforms
+*   getSegments() function
+*   added underscore
+*   differentiated 'I' and '1'
+
+
 ## [3.4.0](https://github.com/DeanIsMe/SevSeg/releases/tag/v3.4.0) (2019-04-21)
 
 ### Added
