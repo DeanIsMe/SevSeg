@@ -66,7 +66,7 @@ Bottom Row: E D DP C G 4
 The Wokwi team has created sample simulations of the examples in this library:
 [Wokwi SevSeg_Counter Example][6].  
 [Wokwi stringWithPeriod Example][7].  
-[Wokwi testWholeDisplay Example][7].  
+[Wokwi testWholeDisplay Example][8].  
  
 
 ## Software
