@@ -17,7 +17,7 @@
 #define ASTERISK_IDX 39
 #define UNDERSCORE_IDX 40
 
-static const long powersOf10[] = {
+static const int32_t powersOf10[] = {
   1, // 10^0
   10,
   100,
@@ -30,7 +30,7 @@ static const long powersOf10[] = {
   1000000000
 }; // 10^9
 
-static const long powersOf16[] = {
+static const int32_t powersOf16[] = {
   0x1, // 16^0
   0x10,
   0x100,
@@ -43,7 +43,7 @@ static const long powersOf16[] = {
 
 // digitCodeMap indicate which segments must be illuminated to display
 // each number.
-static const byte digitCodeMap[] = {
+static const uint8_t digitCodeMap[] = {
   //     GFEDCBA  Segments      7-segment map:
   B00111111, // 0   "0"          AAA
   B00000110, // 1   "1"         F   B
@@ -89,8 +89,8 @@ static const byte digitCodeMap[] = {
 };
 
 // Constant pointers to constant data
-const byte * const numeralCodes = digitCodeMap;
-const byte * const alphaCodes = digitCodeMap + 10;
+const uint8_t * const numeralCodes = digitCodeMap;
+const uint8_t * const alphaCodes = digitCodeMap + 10;
 
 // SevSeg Constructor
 /******************************************************************************/
@@ -117,8 +117,8 @@ SevSeg::SevSeg() {
 // leadingZerosIn indicates whether leading zeros should be displayed
 // disableDecPoint is true when the decimal point segment is not connected, in
 // which case there are only 7 segments.
-void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, const byte digitPinsIn[],
-                   const byte segmentPinsIn[], bool resOnSegmentsIn,
+void SevSeg::begin(uint8_t hardwareConfig, uint8_t numDigitsIn, const uint8_t digitPinsIn[],
+                   const uint8_t segmentPinsIn[], bool resOnSegmentsIn,
                    bool updateWithDelaysIn, bool leadingZerosIn, bool disableDecPoint) {
 
   resOnSegments = resOnSegmentsIn;
@@ -167,21 +167,21 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, const byte digitPinsIn
   }
 
   // Save the input pin numbers to library variables
-  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+  for (uint8_t segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     segmentPins[segmentNum] = segmentPinsIn[segmentNum];
   }
 
-  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+  for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitPins[digitNum] = digitPinsIn[digitNum];
   }
 
   // Set the pins as outputs, and turn them off
-  for (byte digit = 0 ; digit < numDigits ; digit++) {
+  for (uint8_t digit = 0 ; digit < numDigits ; digit++) {
     pinMode(digitPins[digit], OUTPUT);
     digitalWrite(digitPins[digit], digitOffVal);
   }
 
-  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+  for (uint8_t segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     pinMode(segmentPins[segmentNum], OUTPUT);
     digitalWrite(segmentPins[segmentNum], segmentOffVal);
   }
@@ -211,14 +211,14 @@ void SevSeg::begin(byte hardwareConfig, byte numDigitsIn, const byte digitPinsIn
 void SevSeg::refreshDisplay() {
 
   if (!updateWithDelays) {
-    unsigned long us = micros();
+    uint32_t us = micros();
 
     // Exit if it's not time for the next display change
     if (waitOffActive) {
-      if (us - prevUpdateTime < waitOffTime) return;
+      if ((int32_t)(us - prevUpdateTime) < waitOffTime) return;
     }
     else {
-      if (us - prevUpdateTime < ledOnTime) return;
+      if ((int32_t)(us - prevUpdateTime) < ledOnTime) return;
     }
     prevUpdateTime = us;
 
@@ -276,7 +276,7 @@ void SevSeg::refreshDisplay() {
     if (!resOnSegments) {
       /**********************************************/
       // RESISTORS ON DIGITS, UPDATE WITH DELAYS
-      for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+      for (uint8_t segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
 
         // Illuminate the required digits for this segment
         segmentOn(segmentNum);
@@ -294,7 +294,7 @@ void SevSeg::refreshDisplay() {
     else {
       /**********************************************/
       // RESISTORS ON SEGMENTS, UPDATE WITH DELAYS
-      for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+      for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
 
         // Illuminate the required segments for this digit
         digitOn(digitNum);
@@ -316,9 +316,9 @@ void SevSeg::refreshDisplay() {
 /******************************************************************************/
 // Turns a segment on, as well as all corresponding digit pins
 // (according to digitCodes[])
-void SevSeg::segmentOn(byte segmentNum) {
+void SevSeg::segmentOn(uint8_t segmentNum) {
   digitalWrite(segmentPins[segmentNum], segmentOnVal);
-  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+  for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
       digitalWrite(digitPins[digitNum], digitOnVal);
     }
@@ -328,8 +328,8 @@ void SevSeg::segmentOn(byte segmentNum) {
 // segmentOff
 /******************************************************************************/
 // Turns a segment off, as well as all digit pins
-void SevSeg::segmentOff(byte segmentNum) {
-  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+void SevSeg::segmentOff(uint8_t segmentNum) {
+  for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitalWrite(digitPins[digitNum], digitOffVal);
   }
   digitalWrite(segmentPins[segmentNum], segmentOffVal);
@@ -339,9 +339,9 @@ void SevSeg::segmentOff(byte segmentNum) {
 /******************************************************************************/
 // Turns a digit on, as well as all corresponding segment pins
 // (according to digitCodes[])
-void SevSeg::digitOn(byte digitNum) {
+void SevSeg::digitOn(uint8_t digitNum) {
   digitalWrite(digitPins[digitNum], digitOnVal);
-  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+  for (uint8_t segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
       digitalWrite(segmentPins[segmentNum], segmentOnVal);
     }
@@ -351,8 +351,8 @@ void SevSeg::digitOn(byte digitNum) {
 // digitOff
 /******************************************************************************/
 // Turns a digit off, as well as all segment pins
-void SevSeg::digitOff(byte digitNum) {
-  for (byte segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
+void SevSeg::digitOff(uint8_t digitNum) {
+  for (uint8_t segmentNum = 0 ; segmentNum < numSegments ; segmentNum++) {
     digitalWrite(segmentPins[segmentNum], segmentOffVal);
   }
   digitalWrite(digitPins[digitNum], digitOffVal);
@@ -364,7 +364,7 @@ void SevSeg::digitOff(byte digitNum) {
 // is 0 to 100. Flickering is more likely at brightness > 100, and < -100.
 // A positive brightness introduces a delay while the LEDs are on, and a
 // negative brightness introduces a delay while the LEDs are off.
-void SevSeg::setBrightness(int brightness) {
+void SevSeg::setBrightness(int16_t brightness) {
   brightness = constrain(brightness, -200, 200);
   if (brightness > 0) {
     ledOnTime = map(brightness, 0, 100, 1, 2000);
@@ -380,35 +380,16 @@ void SevSeg::setBrightness(int brightness) {
 
 // setNumber
 /******************************************************************************/
-// This function only receives the input and passes it to 'setNewNum'.
-// It is overloaded for all number data types, so that floats can be handled
-// correctly.
-void SevSeg::setNumber(long numToShow, char decPlaces, bool hex) { //long
+// Receives an integer and passes it to 'setNewNum'.
+void SevSeg::setNumber(int32_t numToShow, int8_t decPlaces, bool hex) { //int32_t
   setNewNum(numToShow, decPlaces, hex);
 }
 
-void SevSeg::setNumber(unsigned long numToShow, char decPlaces, bool hex) { //unsigned long
-  setNewNum(numToShow, decPlaces, hex);
-}
-
-void SevSeg::setNumber(int numToShow, char decPlaces, bool hex) { //int
-  setNewNum(numToShow, decPlaces, hex);
-}
-
-void SevSeg::setNumber(unsigned int numToShow, char decPlaces, bool hex) { //unsigned int
-  setNewNum(numToShow, decPlaces, hex);
-}
-
-void SevSeg::setNumber(char numToShow, char decPlaces, bool hex) { //char
-  setNewNum(numToShow, decPlaces, hex);
-}
-
-void SevSeg::setNumber(byte numToShow, char decPlaces, bool hex) { //byte
-  setNewNum(numToShow, decPlaces, hex);
-}
-
-void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) { //float
-  char decPlacesPos = constrain(decPlaces, 0, MAXNUMDIGITS);
+// setNumberF
+/******************************************************************************/
+// Receives a float, prepares it, and passes it to 'setNewNum'.
+void SevSeg::setNumberF(float numToShow, int8_t decPlaces, bool hex) { //float
+  int8_t decPlacesPos = constrain(decPlaces, 0, MAXNUMDIGITS);
   if (hex) {
     numToShow = numToShow * powersOf16[decPlacesPos];
   }
@@ -416,16 +397,15 @@ void SevSeg::setNumber(float numToShow, char decPlaces, bool hex) { //float
     numToShow = numToShow * powersOf10[decPlacesPos];
   }
   // Modify the number so that it is rounded to an integer correctly
-  numToShow += (numToShow >= 0) ? 0.5f : -0.5f;
-  setNewNum(numToShow, decPlaces, hex);
+  numToShow += (numToShow >= 0.f) ? 0.5f : -0.5f;
+  setNewNum((int32_t)numToShow, (int8_t)decPlaces, hex);
 }
-
 
 // setNewNum
 /******************************************************************************/
 // Changes the number that will be displayed.
-void SevSeg::setNewNum(long numToShow, char decPlaces, bool hex) {
-  byte digits[MAXNUMDIGITS];
+void SevSeg::setNewNum(int32_t numToShow, int8_t decPlaces, bool hex) {
+  uint8_t digits[MAXNUMDIGITS];
   findDigits(numToShow, decPlaces, hex, digits);
   setDigitCodes(digits, decPlaces);
 }
@@ -447,8 +427,8 @@ void SevSeg::setNewNum(long numToShow, char decPlaces, bool hex) {
 //                       E    C        4    2
 //                       E    C        4    2        (Segment H is often called
 //                        DDDD  H       3333  7      DP, for Decimal Point)
-void SevSeg::setSegments(const byte segs[]) {
-  for (byte digit = 0; digit < numDigits; digit++) {
+void SevSeg::setSegments(const uint8_t segs[]) {
+  for (uint8_t digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = segs[digit];
   }
 }
@@ -461,8 +441,8 @@ void SevSeg::setSegments(const byte segs[]) {
 // only some digits.
 // See setSegments() for bit-segment mapping
 //
-void SevSeg::getSegments(byte segs[]) {
-  for (byte digit = 0; digit < numDigits; digit++) {
+void SevSeg::getSegments(uint8_t segs[]) {
+  for (uint8_t digit = 0; digit < numDigits; digit++) {
     segs[digit] = digitCodes[digit];
   }
 }
@@ -471,14 +451,14 @@ void SevSeg::getSegments(byte segs[]) {
 /******************************************************************************/
 // Displays the string on the display, as best as possible.
 // Only alphanumeric characters plus '-' and ' ' are supported
-void SevSeg::setChars(const char str[]) {
-  for (byte digit = 0; digit < numDigits; digit++) {
+void SevSeg::setChars(const int8_t str[]) {
+  for (uint8_t digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = 0;
   }
 
-  byte strIdx = 0; // Current position within str[]
-  for (byte digitNum = 0; digitNum < numDigits; digitNum++) {
-    char ch = str[strIdx];
+  uint8_t strIdx = 0; // Current position within str[]
+  for (uint8_t digitNum = 0; digitNum < numDigits; digitNum++) {
+    int8_t ch = str[strIdx];
     if (ch == '\0') break; // NULL string terminator
     if (ch >= '0' && ch <= '9') { // Numerical
       digitCodes[digitNum] = numeralCodes[ch - '0'];
@@ -518,7 +498,7 @@ void SevSeg::setChars(const char str[]) {
 // blank
 /******************************************************************************/
 void SevSeg::blank(void) {
-  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+  for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitCodes[digitNum] = digitCodeMap[BLANK_IDX];
   }
   segmentOff(0);
@@ -530,19 +510,19 @@ void SevSeg::blank(void) {
 // Decides what each digit will display.
 // Enforces the upper and lower limits on the number to be displayed.
 // digits[] is an output
-void SevSeg::findDigits(long numToShow, char decPlaces, bool hex, byte digits[]) {
-  const long * powersOfBase = hex ? powersOf16 : powersOf10;
-  const long maxNum = powersOfBase[numDigits] - 1;
-  const long minNum = -(powersOfBase[numDigits - 1] - 1);
+void SevSeg::findDigits(int32_t numToShow, int8_t decPlaces, bool hex, uint8_t digits[]) {
+  const int32_t * powersOfBase = hex ? powersOf16 : powersOf10;
+  const int32_t maxNum = powersOfBase[numDigits] - 1;
+  const int32_t minNum = -(powersOfBase[numDigits - 1] - 1);
 
   // If the number is out of range, just display dashes
   if (numToShow > maxNum || numToShow < minNum) {
-    for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+    for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
       digits[digitNum] = DASH_IDX;
     }
   }
   else {
-    byte digitNum = 0;
+    uint8_t digitNum = 0;
 
     // Convert all number to positive values
     if (numToShow < 0) {
@@ -554,7 +534,7 @@ void SevSeg::findDigits(long numToShow, char decPlaces, bool hex, byte digits[])
     // Find all digits for base's representation, starting with the most
     // significant digit
     for ( ; digitNum < numDigits ; digitNum++) {
-      long factor = powersOfBase[numDigits - 1 - digitNum];
+      int32_t factor = powersOfBase[numDigits - 1 - digitNum];
       digits[digitNum] = numToShow / factor;
       numToShow -= digits[digitNum] * factor;
     }
@@ -580,11 +560,10 @@ void SevSeg::findDigits(long numToShow, char decPlaces, bool hex, byte digits[])
 // setDigitCodes
 /******************************************************************************/
 // Sets the 'digitCodes' that are required to display the input numbers
-
-void SevSeg::setDigitCodes(const byte digits[], char decPlaces) {
+void SevSeg::setDigitCodes(const uint8_t digits[], int8_t decPlaces) {
 
   // Set the digitCode for each digit in the display
-  for (byte digitNum = 0 ; digitNum < numDigits ; digitNum++) {
+  for (uint8_t digitNum = 0 ; digitNum < numDigits ; digitNum++) {
     digitCodes[digitNum] = digitCodeMap[digits[digitNum]];
     // Set the decimal point segment
     if (decPlaces >= 0) {

@@ -103,24 +103,23 @@ If you wish to use more than 8 digits, increase MAXNUMDIGITS in SevSeg.h.
 
 
 ### Setting a number
-
+#### Integer
 ```c++
 sevseg.setNumber(3141,3); // Displays '3.141'
 ```
-
 The first argument is the number to display. The second argument indicates where the decimal place should be, counted from the least significant digit. E.g. to display an integer, the second argument is 0.
-Floats are supported. In this case, the second argument indicates how many decimal places of precision you want to display. E.g:
 
+#### Floating point
 ```c++
-sevseg.setNumber(3.14159f,3); //Displays '3.141'
+sevseg.setNumberF(3.14159f,3); //Displays '3.141'
 ```
+Floats are supported. In this case, the second argument indicates how many decimal places of precision you want to display.
 
-Out of range numbers are shown as '----'.
+Note that:
 
-If the second argument is -1 or omitted, there will be no decimal place.
-
-Enter 'true' as the third agument to display the number in hexadecimal representation.
-
+ - Out of range numbers are shown as '----'. 
+ - If the second argument is -1 or omitted, there will be no decimal place. 
+ - Enter 'true' as the third argument to display the number in hexadecimal representation (instead of decimal)
 
 ### Setting a character string
 
