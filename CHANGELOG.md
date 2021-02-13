@@ -1,5 +1,10 @@
 # Change Log
 
+## [3.6.0](https://github.com/DeanIsMe/SevSeg/releases/tag/v3.6.0) (2021-02-13)
+*   changed all data types to stdint.h types for better compatibility
+*   removed floating point support from setNumber(). 
+*   added new function to set a floating point number: setNumberF()
+
 ## [3.5.0](https://github.com/DeanIsMe/SevSeg/releases/tag/v3.5.0) (2020-12-28)
 *   better compatibility with different boards & platforms
 *   getSegments() function

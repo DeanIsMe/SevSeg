@@ -1,5 +1,6 @@
 SevSeg	KEYWORD1
 setNumber	KEYWORD2
+setNumberF	KEYWORD2
 refreshDisplay	KEYWORD2
 setBrightness	KEYWORD2
 getSegments	KEYWORD2
