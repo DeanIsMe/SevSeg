@@ -48,7 +48,7 @@ public:
 
   void setSegments(const uint8_t segs[]);
   void getSegments(uint8_t segs[]);
-  void setChars(const int8_t str[]);
+  void setChars(const char str[]);
   void blank(void);
 
 private:

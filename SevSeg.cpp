@@ -451,14 +451,14 @@ void SevSeg::getSegments(uint8_t segs[]) {
 /******************************************************************************/
 // Displays the string on the display, as best as possible.
 // Only alphanumeric characters plus '-' and ' ' are supported
-void SevSeg::setChars(const int8_t str[]) {
+void SevSeg::setChars(const char str[]) {
   for (uint8_t digit = 0; digit < numDigits; digit++) {
     digitCodes[digit] = 0;
   }
 
   uint8_t strIdx = 0; // Current position within str[]
   for (uint8_t digitNum = 0; digitNum < numDigits; digitNum++) {
-    int8_t ch = str[strIdx];
+    char ch = str[strIdx];
     if (ch == '\0') break; // NULL string terminator
     if (ch >= '0' && ch <= '9') { // Numerical
       digitCodes[digitNum] = numeralCodes[ch - '0'];
@@ -487,7 +487,7 @@ void SevSeg::setChars(const int8_t str[]) {
     }
 
     strIdx++;
-    // Peek at next character. It it's a period, add it to this digit
+    // Peek at next character. If it's a period, add it to this digit
     if (str[strIdx] == '.') {
       digitCodes[digitNum] |= digitCodeMap[PERIOD_IDX];
       strIdx++;
