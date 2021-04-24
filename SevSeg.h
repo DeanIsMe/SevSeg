@@ -48,6 +48,7 @@ public:
 
   void setSegments(const uint8_t segs[]);
   void getSegments(uint8_t segs[]);
+  void setSegment(const byte segNum, const byte segs);
   void setChars(const char str[]);
   void blank(void);
 
