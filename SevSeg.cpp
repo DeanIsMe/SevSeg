@@ -433,6 +433,13 @@ void SevSeg::setSegments(const uint8_t segs[]) {
   }
 }
 
+// setSegment
+/******************************************************************************/
+// Like setSegments above, only manipulates one segment  
+void SevSeg::setSegment(const byte segNum, const byte segs) {
+    digitCodes[segNum] = segs;
+}
+
 // getSegments
 /******************************************************************************/
 // Gets the 'digitCodes' of currently displayed segments.
