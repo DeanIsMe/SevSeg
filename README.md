@@ -102,6 +102,22 @@ void setup() {
 If you wish to use more than 8 digits, increase MAXNUMDIGITS in SevSeg.h.
 
 
+### Refreshing the display
+
+```c++
+sevseg.refreshDisplay();
+```
+
+Your program must run the refreshDisplay() function repeatedly to display the number. 
+**Warning: Any calls to delay() will interfere with the display.**
+Any delays introduced by other functions will produce undesirable effects on the display. If you need help getting away from delay() statements, I recommend the simple [Blink Without Delay][9] arduino example sketch.
+
+To blank the display, call:
+
+```c++
+sevseg.blank();
+```
+
 ### Setting a number
 #### Integer
 ```c++
@@ -127,23 +143,19 @@ Note that:
 sevseg.setChars("abcd");
 ```
 
-Character arrays can be displayed - as accurately as possible on a seven segment display. See SevSeg.cpp digitCodeMap[] to notes on each character. Only alphanumeric characters, plus ' ', '-' and '.' are supported. The character array should be NULL terminated.
+Character arrays can be displayed - as accurately as possible on a seven segment display. See SevSeg.cpp digitCodeMap[] to notes on each character. Only alphanumeric characters, plus ' ', '-', '_', and '.' are supported. The character array should be NULL terminated.
 
-
-### Refreshing the display
-
+### Custom display setting
 ```c++
-sevseg.refreshDisplay();
+// Set the segments for every digit on the display
+uint8_t segs[4] = {0, 0x5B, 0x6D, 0x63};
+sevseg.setSegments(segs);
 ```
-
-Your program must run the refreshDisplay() function repeatedly to display the number. Note that any delays introduced by other functions will produce undesirable effects on the display.
-
-To blank the display, call:
-
 ```c++
-sevseg.blank();
+// Set the segments for a single digit. Set digit 3 to 0x63. 
+sevseg.setSegmentsDigit(3, 0x63);
 ```
-
+You can manipulate individual segments if needed. Each byte represents the display of a single digit, with each bit representing a single segment. The bits represent segments in the order .GFEDCBA. See SevSeg.cpp for more examples of these 'digitCodes'.
 
 ### Setting the brightness
 
@@ -188,3 +200,4 @@ SOFTWARE.
 [6]: https://wokwi.com/arduino/libraries/SevSeg/SevSeg_Counter
 [7]: https://wokwi.com/arduino/libraries/SevSeg/stringWithPeriod
 [8]: https://wokwi.com/arduino/libraries/SevSeg/testWholeDisplay
+[9]: https://www.arduino.cc/en/Tutorial/BuiltInExamples/BlinkWithoutDelay

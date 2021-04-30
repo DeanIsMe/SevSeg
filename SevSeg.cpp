@@ -44,7 +44,7 @@ static const int32_t powersOf16[] = {
 // digitCodeMap indicate which segments must be illuminated to display
 // each number.
 static const uint8_t digitCodeMap[] = {
-  //     GFEDCBA  Segments      7-segment map:
+  // GFEDCBA  Segments      7-segment map:
   0b00111111, // 0   "0"          AAA
   0b00000110, // 1   "1"         F   B
   0b01011011, // 2   "2"         F   B
@@ -433,11 +433,14 @@ void SevSeg::setSegments(const uint8_t segs[]) {
   }
 }
 
-// setSegment
+// setSegmentsDigit
 /******************************************************************************/
-// Like setSegments above, only manipulates one segment  
-void SevSeg::setSegment(const byte segNum, const byte segs) {
-    digitCodes[segNum] = segs;
+// Like setSegments above, but only manipulates the segments for one digit
+// digitNum is 0-indexed.
+void SevSeg::setSegmentsDigit(const uint8_t digitNum, const uint8_t segs) {
+  if (digitNum < numDigits) {
+    digitCodes[digitNum] = segs;
+  }
 }
 
 // getSegments

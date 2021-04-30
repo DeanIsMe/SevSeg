@@ -5,6 +5,7 @@ refreshDisplay	KEYWORD2
 setBrightness	KEYWORD2
 getSegments	KEYWORD2
 setSegments	KEYWORD2
+setSegmentsDigit	KEYWORD2
 setChars	KEYWORD2
 blank	KEYWORD2
 COMMON_CATHODE	LITERAL1
