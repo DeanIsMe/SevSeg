@@ -38,7 +38,7 @@ public:
 
   void refreshDisplay();
   void begin(uint8_t hardwareConfig, uint8_t numDigitsIn, const uint8_t digitPinsIn[],
-          const uint8_t segmentPinsIn[], bool resOnSegmentsIn=0, 
+          const uint8_t segmentPinsIn[], bool resOnSegmentsIn=0,
           bool updateWithDelaysIn=0, bool leadingZerosIn=0,
 		  bool disableDecPoint=0);
   void setBrightness(int16_t brightnessIn); // A number from 0..100
@@ -70,8 +70,8 @@ private:
   uint8_t prevUpdateIdx; // The previously updated segment or digit
   uint8_t digitCodes[MAXNUMDIGITS]; // The active setting of each segment of each digit
   uint32_t prevUpdateTime; // The time (millis()) when the display was last updated
-  int16_t ledOnTime; // The time (us) to wait with LEDs on
-  int16_t waitOffTime; // The time (us) to wait with LEDs off
+  uint16_t ledOnTime; // The time (us) to wait with LEDs on
+  uint16_t waitOffTime; // The time (us) to wait with LEDs off
   bool waitOffActive; // Whether  the program is waiting with LEDs off
 };
 

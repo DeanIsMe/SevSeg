@@ -215,10 +215,10 @@ void SevSeg::refreshDisplay() {
 
     // Exit if it's not time for the next display change
     if (waitOffActive) {
-      if ((int32_t)(us - prevUpdateTime) < waitOffTime) return;
+      if ((us - prevUpdateTime) < waitOffTime) return;
     }
     else {
-      if ((int32_t)(us - prevUpdateTime) < ledOnTime) return;
+      if ((us - prevUpdateTime) < ledOnTime) return;
     }
     prevUpdateTime = us;
 
@@ -446,7 +446,7 @@ void SevSeg::setSegmentsDigit(const uint8_t digitNum, const uint8_t segs) {
 // getSegments
 /******************************************************************************/
 // Gets the 'digitCodes' of currently displayed segments.
-// Using this function, one can get the current set of segments (placed 
+// Using this function, one can get the current set of segments (placed
 // elsewhere) and manipulate them to obtain effects, for example blink of
 // only some digits.
 // See setSegments() for bit-segment mapping
