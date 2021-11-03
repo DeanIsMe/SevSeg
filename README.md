@@ -44,8 +44,8 @@ These displays are powered directly through the Arduino output pins.
 Some displays (mostly bigger ones) use switching transistors, but most people won't have to worry about the configurations below.
 *   **N_TRANSISTORS** \- If you use N-type transistors to sink current (or any other active-high, low-side switches).
 *   **P_TRANSISTORS** \- If you use P-type transistors to supply current (or any other active-low, high-side switches).
-*   **NP_COMMMON_CATHODE** \- If your setup uses N-type AND P-type transistors with a common cathode display.
-*   **NP_COMMMON_ANODE** \- If your setup uses N-type AND P-type transistors with a common anode display.
+*   **NP_COMMON_CATHODE** \- If your setup uses N-type AND P-type transistors with a common cathode display.
+*   **NP_COMMON_ANODE** \- If your setup uses N-type AND P-type transistors with a common anode display.
 Note that use of active-high, high-side switches will have no impact on the configuration chosen. There are usually called high-side switches.
 
 
