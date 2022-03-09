@@ -16,13 +16,14 @@
 #ifndef SevSeg_h
 #define SevSeg_h
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
+// #if defined(ARDUINO) && ARDUINO >= 100
+// #include <Arduino.h>
+// #else
+// #include <WProgram.h>
+// #endif
+#include <Arduino.h>
 
-// Use defines to link the hardware configurations to the correct numbers
+//Values for hardwareConfig:
 #define COMMON_CATHODE 0
 #define COMMON_ANODE 1
 #define N_TRANSISTORS 2
