@@ -15,7 +15,10 @@ Supports:
 
 Please use GitHub for any questions or suggestions. If I have the time, I'm happy to help you get things working.
 
-Try an example to get started, such as [SevSeg_Counter](./examples\SevSeg_Counter\SevSeg_Counter.ino)
+#### Quickstart
+Try an example to get started, such as [SevSeg_Counter](./examples/SevSeg_Counter/SevSeg_Counter.ino).  
+Read the [Hardware](#hardware) and [Software](#software) sections below for more info.
+
 
 #### Note on shift registers
 It's often preferred to drive seven segment displays through shift register ICs (or other GPIO-expanding ICs), as that only uses ~3 micrcontroller pins instead of ~12 pins. This library does not support shift registers. However, there's a mostly-compatible branch that *does* support shift registers.
