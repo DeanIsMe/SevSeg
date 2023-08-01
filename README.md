@@ -2,14 +2,23 @@
 
 This library turns your Arduino into a seven segment display controller. Use it to easily display numbers on your seven segment display without any additional controllers.
 
-It supports common cathode and common anode displays, and the use of switching transistors. Numbers can be displayed in decimal or hexadecimal representation, with decimal places. Characters can be displayed (as accurately as possible). It also supports multiple displays, of varying dimensions. Shift registers and similar devices are NOT supported.
+Supports:
+ - 1 to 8 digit displays
+ - common cathode and common anode displays
+ - switching transistors
+ - hex and decimal number display
+ - decimal place
+ - input numbers as int or float
+ - alphanumeric characters (as accurately as possible)
 
 [Download it from GitHub][1].
 
-Direct any questions or suggestions to deanreading@hotmail.com. If I have the time, I'm happy to help you get things working.
+Please use GitHub for any questions or suggestions. If I have the time, I'm happy to help you get things working.
+
+Try an example to get started, such as [SevSeg_Counter](./examples\SevSeg_Counter\SevSeg_Counter.ino)
 
 #### Note on shift registers
-It's often preferred to drive seven segment displays through shift register chips, as that only uses ~3 micrcontroller pins instead of ~12 pins. This library does not support shift registers. However, there's a mostly-compatible branch that does support shift registers.
+It's often preferred to drive seven segment displays through shift register ICs (or other GPIO-expanding ICs), as that only uses ~3 micrcontroller pins instead of ~12 pins. This library does not support shift registers. However, there's a mostly-compatible branch that *does* support shift registers.
 See [bridystone's SevSegShift][5].
 
 ## Hardware
@@ -55,7 +64,7 @@ In the below pinout, digits are numbered 1, 2, 3, 4.
 Segments are numbered A through G plus Decimal Point (DP), according to [this picture][2].
 Pins are ordered as looking at the front of the display.
 
-[Cheap, 4-digit, 12-pin display from Ebay][3] (labelled HS410561k-32 on bottom edge):
+Cheap, 4-digit, 12-pin display from Ebay (labelled HS410561k-32 on bottom edge):
 4-digit common anode display, with 2 rows of 6 pins.
 ```
 Top Row:    1 A F  2 3 B
@@ -66,8 +75,9 @@ Bottom Row: E D DP C G 4
 The Wokwi team has created sample simulations of the examples in this library:
 [Wokwi SevSeg_Counter Example][6].  
 [Wokwi stringWithPeriod Example][7].  
-[Wokwi testWholeDisplay Example][8].  
- 
+[Wokwi testDisplay Example][8].  
+
+I am not affiliated with Wokwi in any way, but I do find their tool very helpful. 
 
 ## Software
 
@@ -127,7 +137,7 @@ The first argument is the number to display. The second argument indicates where
 
 #### Floating point
 ```c++
-sevseg.setNumberF(3.14159f,3); //Displays '3.141'
+sevseg.setNumberF(3.14159f,3); // Displays '3.141'
 ```
 Floats are supported. In this case, the second argument indicates how many decimal places of precision you want to display.
 
@@ -194,10 +204,9 @@ SOFTWARE.
 
 [1]: https://github.com/DeanIsMe/SevSeg
 [2]: https://en.wikipedia.org/wiki/File:7_segment_display_labeled.svg
-[3]: http://www.ebay.com/sch/i.html?LH_BIN=1&_from=R40&_sacat=0&_nkw=7+segment+display+4+digit+2+pcs&_sop=15
 [4]: http://arduino.cc/en/Guide/Libraries
 [5]: https://github.com/bridystone/SevSegShift
 [6]: https://wokwi.com/arduino/libraries/SevSeg/SevSeg_Counter
 [7]: https://wokwi.com/arduino/libraries/SevSeg/stringWithPeriod
-[8]: https://wokwi.com/arduino/libraries/SevSeg/testWholeDisplay
+[8]: https://wokwi.com/projects/371856060223388673
 [9]: https://www.arduino.cc/en/Tutorial/BuiltInExamples/BlinkWithoutDelay

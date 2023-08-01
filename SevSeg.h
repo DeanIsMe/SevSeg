@@ -52,6 +52,8 @@ public:
   void setChars(const char str[]);
   void blank(void);
 
+  uint8_t getNumDigits() { return numDigits; }
+
 private:
   void setNewNum(int32_t numToShow, int8_t decPlaces, bool hex=0);
   void findDigits(int32_t numToShow, int8_t decPlaces, bool hex, uint8_t digits[]);
